@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: "Nunito", sans-serif;
+    overflow-x: hidden;
+    background-color: #fff;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .font-fredoka {
+    font-family: "Fredoka One", cursive;
+  }
+
+  .text-shadow {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .hero-clip {
+    clip-path: ellipse(100% 90% at 50% 10%);
+  }
+
+  .bg-hero-dots {
+    background-image: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.15) 1.5px,
+      transparent 1.5px
+    );
+    background-size: 28px 28px;
+  }
+}
+
+/* Swiper overrides */
+.swiper-pagination-bullet {
+  width: 10px !important;
+  height: 10px !important;
+  background: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1 !important;
+}
+.swiper-pagination-bullet-active {
+  background: #f5c518 !important;
+  width: 28px !important;
+  border-radius: 5px !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #e31c78;
+  border-radius: 3px;
+}
