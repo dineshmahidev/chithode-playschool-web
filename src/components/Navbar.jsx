@@ -21,6 +21,14 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Update mobile status bar theme color dynamically
+  useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', menuOpen ? '#c4156a' : '#E31C78');
+    }
+  }, [menuOpen]);
+
   const handleNav = (href) => {
     setActive(href);
     setMenuOpen(false);
@@ -28,11 +36,14 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+        menuOpen
+          ? 'h-screen'
+          : scrolled
           ? 'bg-white/95 backdrop-blur-md shadow-md py-2'
           : 'bg-transparent py-4'
       }`}
+      style={menuOpen ? { background: 'linear-gradient(135deg, #E31C78 0%, #c4156a 100%)' } : {}}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         {/* Logo */}
@@ -42,7 +53,7 @@ export default function Navbar() {
             alt="Chithode Happykids Logo"
             className="h-10 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-md"
           />
-          <span className={`font-fredoka text-2xl tracking-wide transition-colors ${scrolled ? 'text-primary' : 'text-white'}`}>
+          <span className={`font-fredoka text-2xl tracking-wide transition-colors ${menuOpen ? 'text-white' : scrolled ? 'text-primary' : 'text-white'}`}>
             Chithode Happykids
           </span>
         </a>
@@ -66,52 +77,42 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          <a
-            href="#admission"
-            className="bg-[#F5C518] text-gray-900 font-bold text-sm px-6 py-2.5 rounded-full shadow-yellow hover:bg-yellow-400 hover:scale-105 transition-all duration-200"
-          >
-            ENROLL NOW
-          </a>
-        </div>
+
 
         {/* Hamburger */}
         <button
-          className={`md:hidden p-2 rounded-lg transition-colors ${scrolled ? 'text-primary' : 'text-white'}`}
+          className={`md:hidden p-2 rounded-lg transition-colors relative z-[110] ${menuOpen ? 'text-white' : scrolled ? 'text-primary' : 'text-white'}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle Menu"
         >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Full-screen Mobile Menu Content */}
       <div
-        className={`md:hidden transition-all duration-300 overflow-hidden ${
-          menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        className={`fixed inset-0 md:hidden transition-all duration-500 flex flex-col items-center justify-center pointer-events-none ${
+          menuOpen ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 translate-x-full'
         }`}
       >
-        <div className="bg-white shadow-lg px-6 py-4 flex flex-col gap-4">
-          {navLinks.map((link) => (
+        {/* Subtle background decoration for the fire look */}
+        <div className="absolute inset-0 bg-hero-dots opacity-20" />
+        <div className="absolute top-20 left-10 text-white/10 text-9xl font-fredoka select-none pointer-events-none">✦</div>
+        
+        <div className="flex flex-col items-center gap-8 relative z-10">
+          {navLinks.map((link, i) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => handleNav(link.href)}
-              className={`font-semibold text-sm py-2 border-b border-gray-100 ${
-                active === link.href ? 'text-primary' : 'text-gray-700'
-              }`}
+              style={{ transitionDelay: `${i * 100}ms` }}
+              className={`font-fredoka text-3xl transition-all duration-500 ${
+                menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+              } ${active === link.href ? 'text-[#F5C518]' : 'text-white hover:text-[#F5C518]'}`}
             >
               {link.label}
             </a>
           ))}
-          <a
-            href="#admission"
-            className="bg-[#F5C518] text-gray-900 font-bold text-sm px-6 py-3 rounded-full text-center mt-2"
-            onClick={() => setMenuOpen(false)}
-          >
-            ENROLL NOW
-          </a>
         </div>
       </div>
     </nav>

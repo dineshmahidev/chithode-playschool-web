@@ -70,3 +70,38 @@
   background: #e31c78;
   border-radius: 3px;
 }
+
+/* Global Animations */
+@keyframes ringing {
+  0% { transform: rotate(0) scale(1); }
+  10% { transform: rotate(8deg) scale(1.1); }
+  20% { transform: rotate(-8deg) scale(1.1); }
+  30% { transform: rotate(8deg) scale(1.1); }
+  40% { transform: rotate(-8deg) scale(1.1); }
+  50% { transform: rotate(0) scale(1); }
+  100% { transform: rotate(0) scale(1); }
+}
+
+@keyframes spreadGlow {
+  0% { box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.6); }
+  70% { box-shadow: 0 0 0 20px rgba(245, 197, 24, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 197, 24, 0); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-ringing {
+  animation: ringing 1.5s ease-in-out infinite;
+}
+
+.animate-spread-glow {
+  animation: spreadGlow 2s infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
