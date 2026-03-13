@@ -4,11 +4,10 @@ import { useContent } from '../context/ContentContext';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
   { label: 'Programs', href: '#programs' },
-  { label: 'Gallery', href: '#gallery' },
-  { label: 'Testimonials', href: '#testimonials' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Admission', href: '#admission' },
+  { label: 'Enquiry', href: '#enquiry' },
+  { label: 'Call Now', href: 'tel:+919787751430' },
 ];
 
 export default function Navbar() {
