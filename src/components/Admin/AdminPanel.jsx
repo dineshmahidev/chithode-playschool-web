@@ -430,7 +430,7 @@ export default function AdminPanel() {
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed lg:relative inset-y-0 left-0 ${isSidebarOpen ? 'w-64 translate-x-0' : 'w-20 lg:w-20 -translate-x-full lg:translate-x-0'} bg-white border-r border-slate-100 flex flex-col transition-all duration-300 z-50 shadow-sm`}>
+      <aside className={`fixed lg:relative inset-y-0 left-0 ${isSidebarOpen ? 'w-64 translate-x-0' : 'w-0 lg:w-20 -translate-x-full lg:translate-x-0'} bg-white border-r border-slate-100 flex flex-col transition-all duration-300 z-50 shadow-sm overflow-hidden`}>
         <div className="p-8 pb-10 flex items-center justify-between lg:justify-start gap-4">
           <div className="flex items-center gap-4">
             <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white font-fredoka shadow-lg shadow-primary/20 text-sm">HK</div>
