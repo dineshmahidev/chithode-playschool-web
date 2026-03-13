@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useContent } from '../context/ContentContext';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
@@ -11,6 +12,7 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const { content } = useContent();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('#home');
@@ -34,6 +36,9 @@ export default function Navbar() {
     setMenuOpen(false);
   };
 
+  const logo = content?.settings?.logo || '/logo.png';
+  const siteName = content?.settings?.siteName || 'Chithode Happykids';
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
@@ -49,17 +54,17 @@ export default function Navbar() {
         {/* Logo */}
         <a href="#home" className="flex items-center gap-2 group" onClick={() => handleNav('#home')}>
           <img
-            src="/logo.png"
-            alt="Chithode Happykids Logo"
+            src={logo}
+            alt={`${siteName} Logo`}
             className="h-10 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-md"
           />
           <span className={`font-fredoka text-2xl tracking-wide transition-colors ${menuOpen ? 'text-white' : scrolled ? 'text-primary' : 'text-white'}`}>
-            Chithode Happykids
+            {siteName}
           </span>
         </a>
 
         {/* Desktop Links */}
-        <ul className="hidden md:flex items-center gap-8">
+        <ul className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
@@ -81,17 +86,17 @@ export default function Navbar() {
 
         {/* Hamburger */}
         <button
-          className={`md:hidden p-2 rounded-lg transition-colors relative z-[110] ${menuOpen ? 'text-white' : scrolled ? 'text-primary' : 'text-white'}`}
+          className={`lg:hidden p-2.5 -mr-2 rounded-2xl transition-all duration-300 relative z-[110] flex items-center justify-center ${menuOpen ? 'text-white bg-white/10' : scrolled ? 'text-primary' : 'text-white'} active:scale-90`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle Menu"
         >
-          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+          {menuOpen ? <X size={28} strokeWidth={2.5} /> : <Menu size={28} strokeWidth={2.5} />}
         </button>
       </div>
 
       {/* Full-screen Mobile Menu Content */}
       <div
-        className={`fixed inset-0 md:hidden transition-all duration-500 flex flex-col items-center justify-center pointer-events-none ${
+        className={`fixed inset-0 lg:hidden transition-all duration-500 flex flex-col items-center justify-center pointer-events-none ${
           menuOpen ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 translate-x-full'
         }`}
       >

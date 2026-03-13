@@ -1,19 +1,41 @@
 import { useState } from 'react';
+import { useContent } from '../context/ContentContext';
 
-const grades = ['Playschool', 'Pre-KG', 'Daycare'];
+const staticGrades = ['Playschool', 'Pre-KG', 'Daycare'];
 
-const steps = [
+const staticSteps = [
   { step: '01', icon: '📋', title: 'Fill the Form', desc: 'Quick online inquiry — takes just 2 minutes.' },
   { step: '02', icon: '📞', title: 'We Call You', desc: 'Our team calls within 24 hours to guide you.' },
   { step: '03', icon: '🏫', title: 'Visit & Trial', desc: 'Enjoy a 2-day free trial at our school.' },
   { step: '04', icon: '🎒', title: 'Get Enrolled', desc: 'Complete admission and your child is ready!' },
 ];
 
+const staticInfo = [
+  { icon: '📍', text: '37/2 Vinayaga Residency, Chithode, Erode' },
+  { icon: '📞', text: '+91 97877 51430' },
+  { icon: '📧', text: 'chithodehappykids@gmail.com' },
+  { icon: '🕐', text: 'Mon–Sat: 8 AM – 5 PM' },
+];
+
 export default function Admission() {
+  const { content } = useContent();
+  const admission = content?.admission || {
+    steps: staticSteps,
+    grades: staticGrades,
+    image: '/admission_img.png',
+    info: staticInfo
+  };
+  
+  const steps = admission.steps || staticSteps;
+  const grades = admission.grades || staticGrades;
+  const info = admission.info || staticInfo;
+  const image = admission.image || '/admission_img.png';
+
   const [form, setForm] = useState({ name: '', parent: '', phone: '', email: '', grade: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
   const [focused, setFocused] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   const validate = () => {
     const e = {};
@@ -21,16 +43,64 @@ export default function Admission() {
     if (!form.parent.trim()) e.parent = 'Parent name is required';
     if (!form.phone.trim() || !/^\d{10}$/.test(form.phone)) e.phone = 'Valid 10-digit number required';
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Valid email required';
-    if (!form.grade) e.grade = 'Please select a grade';
+    if (!form.grade) e.grade = 'Please select a program';
     return e;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
-    setErrors({});
-    setSubmitted(true);
+    
+    setSubmitting(true);
+    try {
+      // For now, we update the enquiries list in the site content
+      // Real Apps might have a separate submissions table
+      const currentEnquiries = content?.enquiry?.submissions || [];
+      const newSubmission = {
+        id: Date.now(),
+        name: form.parent, // Parent name
+        studentName: form.name,
+        phone: form.phone,
+        email: form.email,
+        program: form.grade,
+        date: new Date().toISOString().split('T')[0],
+        message: form.message,
+        status: 'New',
+        remarks: ''
+      };
+
+      const updatedEnquiry = {
+        ...content.enquiry,
+        submissions: [newSubmission, ...currentEnquiries]
+      };
+
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/submit-enquiry`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.parent,
+          studentName: form.name,
+          phone: form.phone,
+          email: form.email,
+          program: form.grade,
+          subject: 'Admission Inquiry',
+          message: form.message
+        })
+      });
+
+      if (response.ok) {
+        setErrors({});
+        setSubmitted(true);
+      } else {
+        throw new Error('Failed to submit');
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      alert('Failed to submit. Please try again later.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (field, val) => {
@@ -87,7 +157,7 @@ export default function Admission() {
             <div className="relative mb-8">
               <div className="absolute inset-0 scale-110 rounded-full bg-primary/10 blur-2xl pointer-events-none" />
               <img
-                src="/admission_img.png"
+                src={image}
                 alt="Parent and child joining school"
                 className="relative w-56 sm:w-64 lg:w-72 animate-float drop-shadow-2xl"
               />
@@ -95,12 +165,7 @@ export default function Admission() {
 
             {/* Info pills */}
             <div className="space-y-3 w-full max-w-sm">
-              {[
-                { icon: '📍', text: '37/2 Vinayaga Residency, Chithode, Erode' },
-                { icon: '📞', text: '+91 97877 51430' },
-                { icon: '📧', text: 'chithodehappykids@gmail.com' },
-                { icon: '🕐', text: 'Mon–Sat: 8 AM – 5 PM' },
-              ].map((item, i) => (
+              {info.map((item, i) => (
                 <div key={i} className="flex items-start gap-3 bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100">
                   <span className="text-lg">{item.icon}</span>
                   <p className="text-gray-600 text-xs leading-relaxed font-medium">{item.text}</p>
@@ -209,9 +274,10 @@ export default function Admission() {
 
                       <button
                         type="submit"
-                        className="w-full bg-gradient-to-r from-primary to-pink-500 text-white font-extrabold text-sm py-4 rounded-2xl shadow-card hover:shadow-lg hover:scale-[1.02] transition-all duration-200 tracking-wide"
+                        disabled={submitting}
+                        className={`w-full bg-gradient-to-r from-primary to-pink-500 text-white font-extrabold text-sm py-4 rounded-2xl shadow-card hover:shadow-lg hover:scale-[1.02] transition-all duration-200 tracking-wide ${submitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                       >
-                        🚀 Submit Admission Inquiry
+                        {submitting ? '🔄 Submitting...' : '🚀 Submit Admission Inquiry'}
                       </button>
                       <p className="text-center text-gray-400 text-xs">
                         🔒 Your information is safe with us. No spam, ever.

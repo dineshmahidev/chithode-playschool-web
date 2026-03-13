@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useContent } from '../context/ContentContext';
 
-const footerLinks = {
+const staticFooterLinks = {
   'Play & Learn': ['Programs', 'Activities', 'Schedule', 'Events'],
   'Create & Share': ['Art Workshop', 'STEM Lab', 'Projects', 'Exhibitions'],
   'Popular Shows': ['Story Time', 'Music Class', 'Science Fun', 'Dance Class'],
@@ -8,8 +9,33 @@ const footerLinks = {
 };
 
 export default function Footer() {
+  const { content } = useContent();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+
+  const footer = content?.footer || {
+    schoolEvents: staticFooterLinks['School Events'],
+    quickLinks: staticFooterLinks['Play & Learn'],
+    contact: {
+      address: '37/2 No 1 Vinayaga Residency, Kumilamparappu Pirivu, Chithode, Erode',
+      phone: '+91 97877 51430',
+      email: 'chithodehappykids@gmail.com'
+    }
+  };
+
+  const socials = content?.enquiry?.socials || [
+    { icon: 'f', bg: 'bg-blue-600', link: '#' },
+    { icon: 't', bg: 'bg-sky-500', link: '#' },
+    { icon: '▶', bg: 'bg-red-600', link: '#' },
+    { icon: '📷', bg: 'bg-pink-600', link: '#' },
+  ];
+
+  const footerLinks = {
+    'Play & Learn': footer.quickLinks || staticFooterLinks['Play & Learn'],
+    'Create & Share': staticFooterLinks['Create & Share'],
+    'Popular Shows': staticFooterLinks['Popular Shows'],
+    'School Events': footer.schoolEvents || staticFooterLinks['School Events'],
+  };
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -74,28 +100,25 @@ export default function Footer() {
             <div className="space-y-2 mb-5">
               <div className="flex items-start gap-2">
                 <span className="text-xs mt-0.5">📍</span>
-                <p className="text-white/50 text-xs leading-relaxed">37/2 No 1 Vinayaga Residency, Kumilamparappu Pirivu, Chithode, Erode</p>
+                <p className="text-white/50 text-xs leading-relaxed">{footer.contact.address}</p>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs">📞</span>
-                <a href="tel:+919787751430" className="text-white/50 text-xs hover:text-[#F5C518] transition-colors">+91 97877 51430</a>
+                <a href={`tel:${footer.contact.phone.replace(/\s/g, '')}`} className="text-white/50 text-xs hover:text-[#F5C518] transition-colors">{footer.contact.phone}</a>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs">📧</span>
-                <a href="mailto:chithodehappykids@gmail.com" className="text-white/50 text-xs hover:text-[#F5C518] transition-colors">chithodehappykids@gmail.com</a>
+                <a href={`mailto:${footer.contact.email}`} className="text-white/50 text-xs hover:text-[#F5C518] transition-colors">{footer.contact.email}</a>
               </div>
             </div>
             <div className="flex gap-3">
-              {[
-                { icon: 'f', bg: 'bg-blue-600' },
-                { icon: 't', bg: 'bg-sky-500' },
-                { icon: '▶', bg: 'bg-red-600' },
-                { icon: '📷', bg: 'bg-pink-600' },
-              ].map((s, i) => (
+              {socials.map((s, i) => (
                 <a
                   key={i}
-                  href="#"
-                  className={`w-9 h-9 ${s.bg} rounded-full flex items-center justify-center text-white font-bold text-xs hover:scale-110 transition-transform`}
+                  href={s.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-9 h-9 ${s.bg || s.color} rounded-full flex items-center justify-center text-white font-bold text-xs hover:scale-110 transition-transform`}
                 >
                   {s.icon}
                 </a>

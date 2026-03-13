@@ -1,5 +1,6 @@
+import { useContent } from '../context/ContentContext';
 
-const programs = [
+const staticPrograms = [
   {
     id: 1,
     icon: '🧩',
@@ -34,6 +35,26 @@ const programs = [
 ];
 
 export default function Programs() {
+  const { content } = useContent();
+  
+  // Support both old array structure and new object structure
+  const programData = content?.programs?.items 
+    ? content.programs 
+    : { items: Array.isArray(content?.programs) ? content.programs : staticPrograms };
+
+  const rawItems = programData.items || staticPrograms;
+  const header = {
+    eyebrow: programData.eyebrow || 'LET THE LEARNING BEGIN',
+    title: programData.title || 'MEET OUR LEARNING PROGRAMS',
+    desc: programData.desc || "From creative arts to STEM, our programs are thoughtfully crafted to develop every child's unique potential in a fun and supportive environment."
+  };
+
+  // Mix dynamic content with static styling
+  const programs = rawItems.map((p, i) => ({
+    ...staticPrograms[i % 3], // cycle through static styles
+    ...p // overwrite with dynamic content
+  }));
+
   return (
     <section id="programs" className="py-24 bg-white relative overflow-hidden">
       {/* Bg decoration */}
@@ -44,14 +65,13 @@ export default function Programs() {
         {/* Header */}
         <div className="text-center mb-16">
           <p className="text-primary font-semibold tracking-[0.2em] text-xs uppercase mb-3">
-            LET THE LEARNING BEGIN
+            {header.eyebrow}
           </p>
-          <h2 className="font-fredoka text-4xl sm:text-5xl text-gray-800 leading-tight mb-4">
-            MEET OUR LEARNING<br />PROGRAMS
+          <h2 className="font-fredoka text-4xl sm:text-5xl text-gray-800 leading-tight mb-4 uppercase">
+            {header.title}
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">
-            From creative arts to STEM, our programs are thoughtfully crafted to develop 
-            every child's unique potential in a fun and supportive environment.
+            {header.desc}
           </p>
         </div>
 
@@ -69,8 +89,12 @@ export default function Programs() {
                 </span>
               )}
               {/* Icon */}
-              <div className="w-20 h-20 rounded-3xl bg-white shadow-md flex items-center justify-center text-4xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                {prog.icon}
+              <div className="w-20 h-20 rounded-3xl bg-white shadow-md flex items-center justify-center text-4xl mb-6 group-hover:scale-110 transition-transform duration-300 overflow-hidden">
+                {(prog.icon && (prog.icon.startsWith('http') || prog.icon.startsWith('data:image') || prog.icon.includes('/'))) ? (
+                  <img src={prog.icon} alt={prog.title} className="w-full h-full object-cover" />
+                ) : (
+                  prog.icon
+                )}
               </div>
               <h3 className="font-fredoka text-lg text-gray-800 mb-3 leading-snug">{prog.title}</h3>
               <p className="text-gray-500 text-sm leading-relaxed mb-8">{prog.desc}</p>

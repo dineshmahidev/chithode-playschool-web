@@ -1,4 +1,6 @@
-const features = [
+import { useContent } from '../context/ContentContext';
+
+const staticFeatures = [
   {
     icon: '⭐',
     title: 'ALL PROGRAMS, ALL SEASON',
@@ -17,6 +19,15 @@ const features = [
 ];
 
 export default function About() {
+  const { content } = useContent();
+  const about = content?.about || {
+    trialTitle: '2 Days Free Trial',
+    trialDesc: 'Learning together is a great way for kids to bond with their parents. Play and learn every single day in a positive way.',
+    mascotImage: '/mascot.png',
+    features: staticFeatures
+  };
+  const features = about.features || staticFeatures;
+
   return (
     <section id="about" className="py-20 bg-gray-50 relative overflow-hidden">
       {/* Decorative bg */}
@@ -32,7 +43,7 @@ export default function About() {
               style={{ background: 'linear-gradient(160deg, #fce4ec 0%, #f8bbd0 100%)' }}
             >
               <img
-                src="/mascot.png"
+                src={about.mascotImage || "/mascot.png"}
                 alt="Mascot"
                 className="w-48 lg:w-56 relative z-10 drop-shadow-xl animate-float"
               />
@@ -47,12 +58,11 @@ export default function About() {
                 <span className="text-yellow-400 text-lg">⭐</span>
                 <span className="font-bold text-gray-700 text-sm">4.9</span>
               </div>
-              <h2 className="font-fredoka text-3xl sm:text-4xl text-gray-800 leading-tight mb-4">
-                2 Days Free<br />Trial
+              <h2 className="font-fredoka text-3xl sm:text-4xl text-gray-800 leading-tight mb-4 whitespace-pre-line">
+                {about.trialTitle || '2 Days Free Trial'}
               </h2>
               <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-xs">
-                Learning together is a great way for kids to bond with their parents. 
-                Play and learn every single day in a positive way.
+                {about.trialDesc || 'Learning together is a great way for kids to bond with their parents. Play and learn every single day in a positive way.'}
               </p>
               <a
                 href="#admission"
@@ -69,8 +79,12 @@ export default function About() {
             >
               {features.map((f, i) => (
                 <div key={i} className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
-                    {f.icon}
+                  <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-xl flex-shrink-0 shadow-sm overflow-hidden">
+                    {(f.icon && (f.icon.startsWith('http') || f.icon.startsWith('data:image') || f.icon.includes('/'))) ? (
+                      <img src={f.icon} alt={f.title} className="w-full h-full object-cover" />
+                    ) : (
+                      f.icon
+                    )}
                   </div>
                   <div>
                     <h4 className="text-white font-extrabold text-xs uppercase leading-tight mb-1">{f.title}</h4>

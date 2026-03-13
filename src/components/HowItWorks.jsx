@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import { useContent } from '../context/ContentContext';
 
-const tabs = [
+const staticTabs = [
   { id: 'enroll',  label: '📋 Enroll',    icon: '📋' },
   { id: 'visit',   label: '🏫 Visit Us',  icon: '🏫' },
   { id: 'join',    label: '🎒 Join Class', icon: '🎒' },
   { id: 'grow',    label: '🌟 Grow',       icon: '🌟' },
 ];
 
-const tabContent = {
+const staticTabContent = {
   enroll: {
     step: '01',
     title: 'FILL THE\nENROLLMENT FORM',
@@ -39,8 +40,19 @@ const tabContent = {
 };
 
 export default function HowItWorks() {
+  const { content } = useContent();
   const [activeTab, setActiveTab] = useState('enroll');
-  const content = tabContent[activeTab];
+  
+  const hiw = content?.howItWorks || {
+    tabs: staticTabs,
+    content: staticTabContent,
+    illustration: '/hero_slide3.png'
+  };
+  
+  const tabs = hiw.tabs || staticTabs;
+  const tabContent = hiw.content || staticTabContent;
+  const activeContent = tabContent[activeTab] || staticTabContent[activeTab];
+  const illustration = hiw.illustration || '/hero_slide3.png';
 
   return (
     <section
@@ -91,18 +103,18 @@ export default function HowItWorks() {
             {/* Step number */}
             <div className="flex items-center gap-3 mb-5">
               <span className="w-10 h-10 rounded-xl bg-primary text-white font-fredoka text-lg flex items-center justify-center shadow-md">
-                {content.step}
+                {activeContent.step}
               </span>
               <span className="bg-[#F5C518]/20 text-yellow-700 font-bold text-xs px-3 py-1 rounded-full">
-                {content.highlight}
+                {activeContent.highlight}
               </span>
             </div>
 
             <h3 className="font-fredoka text-3xl sm:text-4xl text-gray-800 mb-4 whitespace-pre-line leading-tight">
-              {content.title}
+              {activeContent.title}
             </h3>
             <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-lg">
-              {content.desc}
+              {activeContent.desc}
             </p>
 
             {/* CTA bar */}
@@ -115,7 +127,7 @@ export default function HowItWorks() {
                 href="#admission"
                 className="bg-white text-primary font-bold text-sm px-5 py-2 rounded-full hover:scale-105 transition-transform shadow-sm"
               >
-                {content.cta}
+                {activeContent.cta}
               </a>
             </div>
           </div>
@@ -125,7 +137,7 @@ export default function HowItWorks() {
             <div className="relative">
               <div className="absolute inset-0 scale-110 rounded-full bg-white/10 blur-2xl pointer-events-none" />
               <img
-                src="/hero_slide3.png"
+                src={illustration}
                 alt="Happy kids growing together at Chithode Happykids"
                 className="relative w-56 drop-shadow-2xl animate-float"
               />

@@ -1,4 +1,6 @@
-const testimonials = [
+import { useContent } from '../context/ContentContext';
+
+const staticTestimonials = [
   {
     id: 1,
     name: 'Priya Sharma',
@@ -50,6 +52,22 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
+  const { content } = useContent();
+  
+  // Support both old array structure and new object structure
+  const testimonialData = content?.testimonials?.items 
+    ? content.testimonials 
+    : { items: Array.isArray(content?.testimonials) ? content.testimonials : staticTestimonials };
+
+  const testimonials = testimonialData.items || staticTestimonials;
+  const header = {
+    eyebrow: testimonialData.eyebrow || 'HAPPY FAMILIES',
+    title: testimonialData.title || 'WHAT PARENTS SAY',
+    desc: testimonialData.desc || "Don't just take our word for it — hear from the families who have experienced the Chithode Happykids difference firsthand.",
+    rating: testimonialData.rating || '4.9',
+    ratingDesc: testimonialData.ratingDesc || 'from 200+ reviews'
+  };
+
   return (
     <section id="testimonials" className="py-24 bg-white relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
@@ -66,10 +84,10 @@ export default function Testimonials() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center mb-12">
-          <p className="text-primary font-semibold tracking-[0.2em] text-xs uppercase mb-3">HAPPY FAMILIES</p>
-          <h2 className="font-fredoka text-4xl sm:text-5xl text-gray-800 mb-4">WHAT PARENTS SAY</h2>
+          <p className="text-primary font-semibold tracking-[0.2em] text-xs uppercase mb-3">{header.eyebrow}</p>
+          <h2 className="font-fredoka text-4xl sm:text-5xl text-gray-800 mb-4 uppercase">{header.title}</h2>
           <p className="text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">
-            Don't just take our word for it — hear from the families who have experienced the Chithode Happykids difference firsthand.
+            {header.desc}
           </p>
           <div className="flex items-center justify-center gap-2 mt-4">
             <div className="flex">
@@ -77,8 +95,8 @@ export default function Testimonials() {
                 <span key={i} className="text-yellow-400 text-lg">⭐</span>
               ))}
             </div>
-            <span className="font-bold text-gray-700">4.9</span>
-            <span className="text-gray-400 text-sm">from 200+ reviews</span>
+            <span className="font-bold text-gray-700">{header.rating}</span>
+            <span className="text-gray-400 text-sm">{header.ratingDesc}</span>
           </div>
         </div>
 
@@ -105,7 +123,7 @@ export default function Testimonials() {
 
               {/* Quote */}
               <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                &ldquo;{t.text}&rdquo;
+                &ldquo;{t.text || t.message}&rdquo;
               </p>
 
               {/* Author */}
@@ -115,7 +133,7 @@ export default function Testimonials() {
                 </div>
                 <div>
                   <p className="font-extrabold text-gray-800 text-sm">{t.name}</p>
-                  <p className="text-gray-400 text-xs">{t.role}</p>
+                  <p className="text-gray-400 text-xs">{t.role || t.child}</p>
                 </div>
                 <div className="ml-auto w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg group-hover:bg-primary group-hover:text-white transition-colors">
                   ❝

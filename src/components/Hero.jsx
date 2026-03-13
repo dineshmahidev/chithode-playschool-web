@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useContent } from '../context/ContentContext';
 
-const slides = [
+const staticSlides = [
   {
     eyebrow: 'LET THE LEARNING BEGIN',
     title: 'LET THE\nLEARNING\nBEGIN',
@@ -22,10 +23,13 @@ const slides = [
 ];
 
 export default function Hero() {
+  const { content } = useContent();
+  const slides = content?.hero || staticSlides;
   const [current, setCurrent] = useState(0);
   const [animating, setAnimating] = useState(false);
 
   useEffect(() => {
+    if (slides.length <= 1) return;
     const timer = setInterval(() => {
       const nextIdx = (current + 1) % slides.length;
       goTo(nextIdx);
@@ -34,7 +38,7 @@ export default function Hero() {
     return () => {
       clearInterval(timer);
     };
-  }, [current]);
+  }, [current, slides.length]);
 
   const goTo = (idx) => {
     if (animating) return;
@@ -45,7 +49,7 @@ export default function Hero() {
     }, 400);
   };
 
-  const slide = slides[current];
+  const slide = slides[current] || staticSlides[0];
 
   return (
     <section
@@ -89,9 +93,18 @@ export default function Hero() {
             <h1 className="font-fredoka text-5xl sm:text-6xl lg:text-7xl text-white leading-tight mb-6 whitespace-pre-line drop-shadow-lg">
               {slide.title}
             </h1>
-            <p className="text-white/85 text-sm sm:text-base max-w-md leading-relaxed mb-6 font-nunito">
+            <p className="text-white/85 text-sm sm:text-base max-w-md leading-relaxed mb-10 font-nunito whitespace-pre-line">
               {slide.desc}
             </p>
+            
+            {slide.ctaText && (
+              <a 
+                href={slide.ctaLink || '#'} 
+                className="inline-block bg-[#F5C518] text-gray-900 px-8 py-4 rounded-2xl font-black text-sm tracking-wider hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-black/10"
+              >
+                {slide.ctaText}
+              </a>
+            )}
           </div>
 
           {/* Image block */}

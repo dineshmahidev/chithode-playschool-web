@@ -1,10 +1,28 @@
 import { useState } from 'react';
+import { useContent } from '../context/ContentContext';
 
 export default function Enquiry() {
+  const { content } = useContent();
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
   const [focused, setFocused] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  const enquiryData = content?.enquiry || {
+    image: '/enquiry_img.png',
+    contactInfo: [
+      { icon: '📍', label: 'Address', value: '37/2 No 1 Vinayaga Residency, Kumilamparappu Pirivu, Chithode, Erode' },
+      { icon: '📞', label: 'Phone',   value: '+91 97877 51430' },
+      { icon: '📧', label: 'Email',   value: 'chithodehappykids@gmail.com' },
+      { icon: '🕐', label: 'Hours',   value: 'Mon–Sat: 8 AM – 5 PM' },
+    ],
+    socials: [
+      { icon: 'f', label: 'Facebook',  color: 'bg-blue-600', link: '#' },
+      { icon: '▶', label: 'YouTube',   color: 'bg-red-600', link: '#' },
+      { icon: '📷', label: 'Instagram', color: 'bg-pink-500', link: '#' },
+    ]
+  };
 
   const validate = () => {
     const e = {};
@@ -15,12 +33,55 @@ export default function Enquiry() {
     return e;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
-    setErrors({});
-    setSubmitted(true);
+    
+    setSubmitting(true);
+    try {
+      const currentSubmissions = enquiryData.submissions || [];
+      const newSubmission = {
+        id: Date.now(),
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        subject: form.subject || 'General Enquiry',
+        message: form.message,
+        date: new Date().toISOString().split('T')[0],
+        status: 'New',
+        remarks: ''
+      };
+
+      const updatedEnquiry = {
+        ...enquiryData,
+        submissions: [newSubmission, ...currentSubmissions]
+      };
+
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/submit-enquiry`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          subject: form.subject || 'General Enquiry',
+          message: form.message
+        })
+      });
+
+      if (response.ok) {
+        setErrors({});
+        setSubmitted(true);
+      } else {
+        throw new Error('Save failed');
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      alert('Failed to send message. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (field, val) => {
@@ -35,13 +96,6 @@ export default function Enquiry() {
       : focused === field
       ? 'border-white shadow-[0_0_0_4px_rgba(255,255,255,0.1)]'
       : 'border-white/20 hover:border-white/40'}`;
-
-  const contactInfo = [
-    { icon: '📍', label: 'Address', value: '37/2 No 1 Vinayaga Residency, Kumilamparappu Pirivu, Chithode, Erode', href: null },
-    { icon: '📞', label: 'Phone',   value: '+91 97877 51430', href: 'tel:+919787751430' },
-    { icon: '📧', label: 'Email',   value: 'chithodehappykids@gmail.com', href: 'mailto:chithodehappykids@gmail.com' },
-    { icon: '🕐', label: 'Hours',   value: 'Mon–Sat: 8 AM – 5 PM', href: null },
-  ];
 
   return (
     <section
@@ -70,13 +124,12 @@ export default function Enquiry() {
 
           {/* Left — Contact info + image */}
           <div className="flex-1 space-y-5">
-
             {/* Image */}
             <div className="flex justify-center lg:justify-start mb-2">
               <div className="relative">
                 <div className="absolute inset-0 scale-110 rounded-full bg-white/20 blur-2xl pointer-events-none" />
                 <img
-                  src="/enquiry_img.png"
+                  src={enquiryData.image}
                   alt="Friendly staff ready to help"
                   className="relative w-48 sm:w-56 lg:w-64 animate-float drop-shadow-2xl"
                 />
@@ -84,15 +137,15 @@ export default function Enquiry() {
             </div>
 
             {/* Contact cards */}
-            {contactInfo.map((info, i) => (
+            {enquiryData.contactInfo.map((info, i) => (
               <div key={i} className="flex items-start gap-4 bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:bg-white/15 transition-colors">
                 <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center text-xl flex-shrink-0">
                   {info.icon}
                 </div>
                 <div>
                   <p className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-0.5">{info.label}</p>
-                  {info.href ? (
-                    <a href={info.href} className="text-white font-semibold text-sm hover:text-[#F5C518] transition-colors">
+                  {(info.value && (info.value.includes('@') || info.value.startsWith('+'))) ? (
+                    <a href={info.value.includes('@') ? `mailto:${info.value}` : `tel:${info.value.replace(/\s/g, '')}`} className="text-white font-semibold text-sm hover:text-[#F5C518] transition-colors">
                       {info.value}
                     </a>
                   ) : (
@@ -106,12 +159,8 @@ export default function Enquiry() {
             <div className="pt-2">
               <p className="text-white/50 text-xs font-semibold uppercase mb-3 tracking-wider">Follow Us</p>
               <div className="flex gap-3">
-                {[
-                  { icon: 'f', label: 'Facebook',  color: 'bg-blue-600' },
-                  { icon: '▶', label: 'YouTube',   color: 'bg-red-600' },
-                  { icon: '📷', label: 'Instagram', color: 'bg-pink-500' },
-                ].map((s) => (
-                  <a key={s.label} href="#" aria-label={s.label}
+                {enquiryData.socials.map((s) => (
+                  <a key={s.label} href={s.link} target="_blank" rel="noopener noreferrer" aria-label={s.label}
                     className={`w-11 h-11 ${s.color} rounded-full flex items-center justify-center text-white font-bold text-sm hover:scale-110 transition-transform shadow-md`}>
                     {s.icon}
                   </a>
@@ -208,9 +257,10 @@ export default function Enquiry() {
 
                       <button
                         type="submit"
-                        className="w-full bg-[#F5C518] text-gray-900 font-extrabold text-sm py-4 rounded-2xl shadow-yellow hover:bg-yellow-400 hover:scale-[1.02] transition-all duration-200 tracking-wide"
+                        disabled={submitting}
+                        className={`w-full bg-[#F5C518] text-gray-900 font-extrabold text-sm py-4 rounded-2xl shadow-yellow hover:bg-yellow-400 hover:scale-[1.02] transition-all duration-200 tracking-wide ${submitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                       >
-                        ✉️ Send Message Now
+                        {submitting ? '🔄 Sending...' : '✉️ Send Message Now'}
                       </button>
                       <p className="text-center text-white/40 text-xs">
                         🔒 Your data is safe. We'll never share your information.
