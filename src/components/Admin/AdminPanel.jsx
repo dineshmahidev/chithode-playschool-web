@@ -546,9 +546,9 @@ export default function AdminPanel() {
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 bg-[#F8FAFC]/50">
+        <div className="flex-1 overflow-y-auto p-2 sm:p-8 lg:p-12 bg-[#F8FAFC]/50">
           <div className="max-w-5xl mx-auto">
-            <div className="bg-white rounded-[32px] sm:rounded-[48px] p-6 sm:p-10 lg:p-12 shadow-sm border border-slate-100 relative overflow-hidden min-h-[calc(100vh-160px)] sm:min-h-[calc(100vh-200px)]">
+            <div className="bg-white rounded-[32px] sm:rounded-[48px] p-4 sm:p-10 lg:p-12 shadow-sm border border-slate-100 relative overflow-hidden min-h-[calc(100vh-160px)] sm:min-h-[calc(100vh-200px)]">
               {/* Decorative Background */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full -mr-32 -mt-32 opacity-50" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-slate-50 rounded-full -ml-24 -mb-24 opacity-50" />
@@ -601,8 +601,8 @@ export default function AdminPanel() {
                       {/* Image Upload */}
                       <div className="space-y-6">
                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] pl-1">Slide Visual</label>
-                        <div className="flex flex-col md:flex-row items-center gap-8 p-10 bg-slate-50/50 rounded-[40px] border border-slate-100">
-                          <div className="w-64 h-48 bg-white rounded-[32px] shadow-sm overflow-hidden flex-shrink-0 border border-slate-100 p-4">
+                        <div className="flex flex-col md:flex-row items-center gap-8 p-6 sm:p-10 bg-slate-50/50 rounded-[40px] border border-slate-100">
+                           <div className="w-full max-w-[240px] h-48 bg-white rounded-[32px] shadow-sm overflow-hidden flex-shrink-0 border border-slate-100 p-4">
                             <img src={content.hero[activeHeroSlide].image} alt="Hero" className="w-full h-full object-contain" />
                           </div>
                           <div className="flex-1 space-y-4 text-center md:text-left">
@@ -626,7 +626,7 @@ export default function AdminPanel() {
                         <div className="space-y-3">
                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Eyebrow Text (Small Heading)</label>
                           <input 
-                            className="w-full bg-white border border-slate-100 focus:border-primary/30 rounded-[24px] p-6 outline-none font-fredoka text-lg text-slate-800 transition-all block shadow-sm shadow-slate-50" 
+                            className="w-full bg-white border border-slate-100 focus:border-primary/30 rounded-[24px] p-4 sm:p-6 outline-none font-fredoka text-lg text-slate-800 transition-all block shadow-sm shadow-slate-50" 
                             value={content.hero[activeHeroSlide].eyebrow} 
                             onChange={e => handleHeroUpdate(activeHeroSlide, 'eyebrow', e.target.value)} 
                           />
@@ -634,7 +634,7 @@ export default function AdminPanel() {
                         <div className="space-y-3">
                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Main Heading (Use \n for new line)</label>
                           <textarea 
-                            className="w-full bg-white border border-slate-100 focus:border-primary/30 rounded-[24px] p-6 outline-none font-fredoka text-3xl text-slate-800 transition-all block shadow-sm shadow-slate-50 h-32" 
+                            className="w-full bg-white border border-slate-100 focus:border-primary/30 rounded-[24px] p-4 sm:p-6 outline-none font-fredoka text-2xl sm:text-3xl text-slate-800 transition-all block shadow-sm shadow-slate-50 h-32" 
                             value={content.hero[activeHeroSlide].title} 
                             onChange={e => handleHeroUpdate(activeHeroSlide, 'title', e.target.value)} 
                           />
