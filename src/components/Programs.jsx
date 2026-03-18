@@ -91,7 +91,7 @@ export default function Programs() {
               {/* Icon */}
               <div className="w-20 h-20 rounded-3xl bg-white shadow-md flex items-center justify-center text-4xl mb-6 group-hover:scale-110 transition-transform duration-300 overflow-hidden">
                 {(prog.icon && (prog.icon.startsWith('http') || prog.icon.startsWith('data:image') || prog.icon.includes('/'))) ? (
-                  <img src={prog.icon} alt={prog.title} className="w-full h-full object-cover" />
+                  <img src={prog.icon} alt={prog.title} loading="lazy" className="w-full h-full object-cover" />
                 ) : (
                   prog.icon
                 )}

@@ -57,6 +57,7 @@ export default function Gallery() {
               <img
                 src={item.img}
                 alt={item.label}
+                loading="lazy"
                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
               />
 

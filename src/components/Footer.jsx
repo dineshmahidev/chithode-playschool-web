@@ -89,7 +89,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:w-72 flex-shrink-0">
             <div className="flex items-center gap-2 mb-4">
-              <img src="/logo.png" alt="Chithode Happykids Logo" className="h-9 w-auto object-contain" />
+              <img src="/fav/apple-touch-icon.png" alt="Chithode Happykids Logo" className="h-9 w-auto object-contain" />
               <span className="font-fredoka text-xl text-white">Chithode Happykids</span>
             </div>
             <p className="text-white/50 text-xs leading-relaxed mb-4 max-w-xs">

@@ -27,7 +27,7 @@ export function ContentProvider({ children }) {
   useEffect(() => {
     if (content?.settings) {
       if (content.settings.siteName) {
-        document.title = content.settings.siteName;
+        document.title = `${content.settings.siteName} – Best Playschool, Pre-KG & Daycare in Chithode 🐻`;
       }
       if (content.settings.favicon) {
         let link = document.querySelector("link[rel~='icon']");

@@ -13,6 +13,7 @@ import Enquiry from './components/Enquiry';
 import Footer from './components/Footer';
 import AdminPanel from './components/Admin/AdminPanel';
 import Login from './components/Admin/Login';
+import NotFound from './components/NotFound';
 
 function LandingPage() {
   return (
@@ -74,6 +75,7 @@ export default function App() {
           </ProtectedRoute>
         } 
       />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

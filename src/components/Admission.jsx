@@ -159,6 +159,7 @@ export default function Admission() {
               <img
                 src={image}
                 alt="Parent and child joining school"
+                loading="lazy"
                 className="relative w-56 sm:w-64 lg:w-72 animate-float drop-shadow-2xl"
               />
             </div>

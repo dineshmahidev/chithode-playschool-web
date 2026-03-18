@@ -35,7 +35,7 @@ export default function Navbar() {
     setMenuOpen(false);
   };
 
-  const logo = content?.settings?.logo || '/logo.png';
+  const logo = content?.settings?.logo || '/fav/apple-touch-icon.png';
   const siteName = content?.settings?.siteName || 'Chithode Happykids';
 
   return (
@@ -55,9 +55,9 @@ export default function Navbar() {
           <img
             src={logo}
             alt={`${siteName} Logo`}
-            className="h-10 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-md"
+            className="h-8 sm:h-10 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-md"
           />
-          <span className={`font-fredoka text-2xl tracking-wide transition-colors ${menuOpen ? 'text-white' : scrolled ? 'text-primary' : 'text-white'}`}>
+          <span className={`font-fredoka text-xl sm:text-2xl tracking-wide transition-colors ${menuOpen ? 'text-white' : scrolled ? 'text-primary' : 'text-white'}`}>
             {siteName}
           </span>
         </a>
