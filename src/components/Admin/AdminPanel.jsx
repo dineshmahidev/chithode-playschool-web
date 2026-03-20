@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { 
   Home, Info, BookOpen, ImageIcon, Grid, MessageSquare, Users, Mail, Layout,
   ChevronRight, Save, Plus, Trash2, LogOut, Star, Upload, Trash, Download, Settings,
-  Menu, X, Sun, Bell
+  Menu, X, Sun, Bell, Music
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -22,6 +22,7 @@ const SECTIONS = [
   { id: 'homePopup', name: 'Home Pop-up', icon: <Bell className="w-5 h-5 text-indigo-500" /> },
   { id: 'summerCamp', name: 'Summer Camp', icon: <Sun className="w-5 h-5 text-orange-500" /> },
   { id: 'footer', name: 'Footer', icon: <Layout className="w-5 h-5" /> },
+  { id: 'musicPlayer', name: 'Music Player', icon: <Music className="w-5 h-5 text-fuchsia-500" /> },
 ];
 
 export default function AdminPanel() {
@@ -254,6 +255,11 @@ export default function AdminPanel() {
       ctaText: 'Learn More',
       ctaLink: '/summer-camp',
       ctaColor: 'yellow'
+    },
+    musicPlayer: {
+      enabled: true,
+      audioUrl: '/bg_music.m4a',
+      autoplay: true
     }
   });
 
@@ -2362,6 +2368,88 @@ export default function AdminPanel() {
                       </div>
                     </div>
                     <SectionSaveButton sectionId="settings" />
+                  </div>
+                )}
+
+                {activeSection === 'musicPlayer' && (
+                  <div className="space-y-12">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-slate-100 pb-8 gap-6">
+                      <div className="space-y-1.5 text-left">
+                        <h3 className="font-fredoka text-3xl text-slate-800 tracking-tight">Background Music</h3>
+                        <p className="text-slate-400 text-[13px] font-medium leading-relaxed">Control the website's audio experience and player visibility</p>
+                      </div>
+                      <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-100">
+                        <span className={`text-[10px] font-black uppercase tracking-widest px-3 ${content.musicPlayer.enabled ? 'text-green-500' : 'text-slate-400'}`}>
+                          {content.musicPlayer.enabled ? 'Enabled' : 'Disabled'}
+                        </span>
+                        <button 
+                          onClick={() => updateNested('musicPlayer', 'enabled', !content.musicPlayer.enabled)}
+                          className={`w-12 h-6 rounded-full transition-all relative ${content.musicPlayer.enabled ? 'bg-fuchsia-500' : 'bg-slate-200'}`}
+                        >
+                          <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${content.musicPlayer.enabled ? 'left-7' : 'left-1'}`} />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                      <div className="space-y-8">
+                        <div className="bg-slate-50/50 p-8 rounded-[40px] border border-slate-100 space-y-8">
+                          <div className="flex items-center justify-between">
+                            <div className="space-y-1">
+                              <h4 className="text-sm font-bold text-slate-700">Autoplay Music</h4>
+                              <p className="text-[11px] text-slate-400 font-medium">Attempt to play music automatically on site load (browsers may restrict)</p>
+                            </div>
+                            <button 
+                              onClick={() => updateNested('musicPlayer', 'autoplay', !content.musicPlayer.autoplay)}
+                              className={`w-10 h-5 rounded-full transition-all relative shrink-0 ${content.musicPlayer.autoplay ? 'bg-fuchsia-500' : 'bg-slate-200'}`}
+                            >
+                              <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${content.musicPlayer.autoplay ? 'left-5.5' : 'left-0.5'}`} />
+                            </button>
+                          </div>
+
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Audio File URL (m4a, mp3, etc.)</label>
+                            <div className="flex gap-2">
+                              <input 
+                                className="flex-1 bg-white border border-slate-100 rounded-2xl p-4 text-sm font-bold text-slate-700 outline-none focus:border-fuchsia-500/20 transition-all shadow-sm"
+                                value={content.musicPlayer.audioUrl}
+                                onChange={(e) => updateNested('musicPlayer', 'audioUrl', e.target.value)}
+                                placeholder="/path/to/music.mp3"
+                              />
+                               <label className="bg-slate-900 text-white px-6 py-4 rounded-2xl text-[10px] font-black tracking-widest shadow-lg shadow-slate-200 hover:bg-fuchsia-500 transition-all cursor-pointer flex items-center gap-2">
+                                <Upload className="w-4 h-4" />
+                                UPLOAD
+                                <input 
+                                  type="file" className="hidden" accept="audio/*"
+                                  onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    if (file) {
+                                      // Note: Standard handling for local preview, but usually this needs backend upload
+                                      const reader = new FileReader();
+                                      reader.onloadend = () => updateNested('musicPlayer', 'audioUrl', reader.result);
+                                      reader.readAsDataURL(file);
+                                    }
+                                  }}
+                                />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col items-center justify-center p-12 bg-fuchsia-50/30 rounded-[40px] border border-fuchsia-100/50">
+                        <div className={`w-24 h-24 rounded-full bg-white shadow-2xl flex items-center justify-center relative border-4 border-white ${content.musicPlayer.enabled ? 'animate-[spin_8s_linear_infinite]' : ''}`}>
+                          <img src="/summer_sun_3d.png" className="w-full h-full object-cover p-1" alt="Mascot Preview" />
+                          {!content.musicPlayer.enabled && (
+                            <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] rounded-full flex items-center justify-center">
+                              <span className="text-white text-[10px] font-black uppercase tracking-widest">Off</span>
+                            </div>
+                          )}
+                        </div>
+                        <p className="mt-8 text-slate-400 text-xs font-medium text-center max-w-[200px]">Music Player will appear on the bottom left of the screen.</p>
+                      </div>
+                    </div>
+                    <SectionSaveButton sectionId="musicPlayer" />
                   </div>
                 )}
               </div>

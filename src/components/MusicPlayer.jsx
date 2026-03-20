@@ -1,12 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Music } from 'lucide-react';
+import { useContent } from '../context/ContentContext';
 
 export default function MusicPlayer() {
+  const { content } = useContent();
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
   
-  // Use the user-provided music file
-  const audioUrl = "/bg_music.m4a";
+  const settings = content?.musicPlayer || {
+    enabled: true,
+    audioUrl: "/bg_music.m4a",
+    autoplay: true
+  };
+
+  const audioUrl = settings.audioUrl;
 
   const togglePlay = (e) => {
     if (e) {
@@ -50,22 +57,24 @@ export default function MusicPlayer() {
   // Fallback timer attempt - Only if not already playing or manually paused
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (audioRef.current && !isPlaying) {
+      if (audioRef.current && !isPlaying && settings.autoplay) {
         audioRef.current.play().then(() => {
           setIsPlaying(true);
         }).catch(() => {});
       }
     }, 2000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [settings.autoplay]);
+
+  if (!settings.enabled) return null;
 
   return (
-    <div className="fixed bottom-32 right-8 z-[9998] flex flex-col items-center gap-2">
+    <div className="fixed bottom-8 left-8 z-[9998] flex flex-col items-center gap-2">
       <audio ref={audioRef} src={audioUrl} loop preload="auto" />
       
-      {/* Rotating Badge */}
+      {/* Rotating Badge - Matching Call button size (w-14 h-14) */}
       <div 
-        className={`relative w-16 h-16 rounded-full border-4 border-white shadow-2xl cursor-pointer group flex items-center justify-center bg-white overflow-hidden transition-all duration-500 ${isPlaying ? 'animate-[spin_8s_linear_infinite]' : ''}`}
+        className={`relative w-14 h-14 rounded-full border-4 border-white shadow-2xl cursor-pointer group flex items-center justify-center bg-white overflow-hidden transition-all duration-500 hover:scale-110 active:scale-95 ${isPlaying ? 'animate-[spin_8s_linear_infinite]' : ''}`}
         onClick={(e) => togglePlay(e)}
         title={isPlaying ? "Pause Music" : "Play Music"}
       >
@@ -89,12 +98,6 @@ export default function MusicPlayer() {
         </div>
       )}
 
-      {/* Control Label */}
-      <div className="bg-white/80 backdrop-blur-md px-3 py-1 rounded-full border border-white shadow-sm">
-        <p className="text-[10px] font-black text-primary tracking-widest uppercase truncate max-w-[80px]">
-          {isPlaying ? 'Playing' : 'Paused'}
-        </p>
-      </div>
     </div>
   );
 }

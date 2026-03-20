@@ -78,29 +78,93 @@ export default function SummerCamp() {
     <div className="min-h-screen font-nunito flex flex-col bg-white">
       <Navbar />
       
-      {/* Summer Camp Hero */}
-      <section className="relative py-32 px-6 overflow-hidden min-h-[500px] flex items-center justify-center summer-pattern-bg border-b border-orange-200">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-400/30 to-pink-500/30 backdrop-blur-[1px]" />
+      {/* Redesigned Summer Camp Hero */}
+      <section className="relative pt-32 pb-24 px-6 overflow-hidden min-h-[700px] flex items-center bg-[#FFFBEB]">
+        {/* Dynamic Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-pink-400/5 to-white" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-200/20 rounded-full blur-[120px] -mr-48 -mt-48 animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-pink-200/20 rounded-full blur-[100px] -ml-24 -mb-24 animate-pulse delay-700" />
         
-        <div className="max-w-7xl mx-auto text-center relative z-10 font-fredoka">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-white/20 text-white text-sm font-bold tracking-widest uppercase mb-6 backdrop-blur-sm">
-            {hero.eyebrow}
-          </span>
-          <h1 className="font-fredoka text-5xl sm:text-7xl text-white mb-8 drop-shadow-xl whitespace-pre-line">
-            {hero.title}
-          </h1>
-          <p className="text-white/90 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-12">
-            {hero.desc}
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <div className="bg-white/90 backdrop-blur-md px-8 py-3 rounded-2xl shadow-xl">
-              <p className="text-orange-600 font-black text-sm uppercase">Starts From</p>
-              <p className="text-gray-800 font-bold text-xl">{hero.date}</p>
+        {/* Summer Pattern Overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{ 
+            backgroundImage: "url('/summer_pattern.png')",
+            backgroundSize: '300px'
+          }}
+        />
+
+        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
+          {/* Left Content */}
+          <div className="text-left space-y-8 animate-in fade-in slide-in-from-left duration-1000">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-orange-100 text-orange-600 text-xs font-black uppercase tracking-[0.2em] shadow-sm border border-orange-200/50">
+              <span className="w-2 h-2 bg-orange-500 rounded-full animate-ping" />
+              {hero.eyebrow}
             </div>
-            <div className="bg-white/90 backdrop-blur-md px-8 py-3 rounded-2xl shadow-xl">
-              <p className="text-pink-600 font-black text-sm uppercase">Ages</p>
-              <p className="text-gray-800 font-bold text-xl">{hero.age}</p>
+            
+            <h1 className="font-fredoka text-6xl md:text-8xl text-slate-900 leading-[1.1] tracking-tight whitespace-pre-line">
+              {hero.title.split('\n').map((line, i) => (
+                <span key={i} className="block">
+                  {line}
+                  {i === 0 && <span className="text-orange-500 text-7xl md:text-9xl ml-2">.</span>}
+                </span>
+              ))}
+            </h1>
+
+            <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-xl font-medium">
+              {hero.desc}
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-6 pt-4">
+              <div className="flex-1 bg-white p-6 rounded-[32px] shadow-xl shadow-orange-100/50 border border-orange-50 relative group hover:-translate-y-1 transition-all">
+                <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-1">Starts From</p>
+                <p className="text-2xl font-fredoka text-slate-800 font-bold">{hero.date}</p>
+                <div className="absolute top-4 right-6 text-2xl group-hover:rotate-12 transition-transform">📅</div>
+              </div>
+              <div className="flex-1 bg-white p-6 rounded-[32px] shadow-xl shadow-pink-100/50 border border-pink-50 relative group hover:-translate-y-1 transition-all">
+                <p className="text-[10px] font-black text-pink-400 uppercase tracking-widest mb-1">Ages Group</p>
+                <p className="text-2xl font-fredoka text-slate-800 font-bold">{hero.age}</p>
+                <div className="absolute top-4 right-6 text-2xl group-hover:scale-110 transition-transform">🎒</div>
+              </div>
             </div>
+
+            <div className="pt-6 flex flex-wrap gap-4">
+              <button 
+                onClick={() => document.getElementById('enquiry').scrollIntoView({ behavior: 'smooth' })}
+                className="px-10 py-5 bg-slate-900 text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-orange-500 hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-slate-200"
+              >
+                Register Now →
+              </button>
+              <button 
+                onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+                className="px-10 py-5 bg-white border-2 border-slate-100 text-slate-600 rounded-full font-black text-sm uppercase tracking-widest hover:border-orange-500 hover:text-orange-500 transition-all"
+              >
+                View Activities
+              </button>
+            </div>
+          </div>
+
+          {/* Right Visual */}
+          <div className="relative hidden lg:block animate-in fade-in zoom-in duration-1000 delay-200">
+             <div className="relative w-full aspect-square max-w-[550px] mx-auto">
+                {/* Decorative Circles */}
+                <div className="absolute inset-0 border-2 border-dashed border-orange-200 rounded-full animate-[spin_20s_linear_infinite]" />
+                <div className="absolute inset-12 border border-pink-100 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+                
+                {/* Main Image */}
+                <div className="absolute inset-8 rounded-[60px] bg-gradient-to-br from-white to-orange-50 shadow-2xl overflow-hidden group">
+                  <img 
+                    src="/summer_sun_3d.png" 
+                    alt="Summer Class" 
+                    className="w-full h-full object-contain p-12 transition-transform duration-700 group-hover:scale-110" 
+                  />
+                </div>
+
+                {/* Floating Elements */}
+                <div className="absolute -top-4 -right-4 w-28 h-28 bg-white p-6 rounded-3xl shadow-xl animate-float border border-slate-50 flex items-center justify-center text-4xl">🎨</div>
+                <div className="absolute top-1/2 -left-10 w-24 h-24 bg-white p-5 rounded-3xl shadow-xl animate-float-slow border border-slate-50 flex items-center justify-center text-4xl">⚽</div>
+                <div className="absolute -bottom-10 right-20 w-32 h-32 bg-white p-7 rounded-3xl shadow-xl animate-ringing border border-slate-50 flex items-center justify-center text-5xl">🧒</div>
+             </div>
           </div>
         </div>
       </section>

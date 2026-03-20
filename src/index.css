@@ -103,9 +103,21 @@
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes floatSlow {
+  0% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(-10px) translateX(5px); }
+  66% { transform: translateY(5px) translateX(-5px); }
+  100% { transform: translateY(0px) translateX(0px); }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .animate-ringing {
@@ -117,5 +129,13 @@
 }
 
 .animate-float {
-  animation: float 4s ease-in-out infinite;
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spinSlow 15s linear infinite;
 }
