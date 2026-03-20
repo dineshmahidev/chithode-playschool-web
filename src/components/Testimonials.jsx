@@ -81,7 +81,7 @@ export default function Testimonials() {
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
           <p className="text-primary font-semibold tracking-[0.2em] text-xs uppercase mb-3">{header.eyebrow}</p>

@@ -34,7 +34,7 @@ export default function Gallery() {
       <div className="absolute top-0 left-0 w-72 h-72 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-[#F5C518]/10 blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Header */}
         <div className="text-center mb-14">
           <p className="text-primary font-semibold tracking-[0.2em] text-xs uppercase mb-3">{header.eyebrow}</p>
@@ -45,7 +45,7 @@ export default function Gallery() {
         </div>
 
         {/* Adaptable Dynamic Grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 3xl:columns-6 gap-4 space-y-4">
           {galleryItems.map((item) => (
             <div
               key={item.id}

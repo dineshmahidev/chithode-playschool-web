@@ -29,7 +29,7 @@ export default function About() {
   const features = about.features || staticFeatures;
 
   return (
-    <section id="about" className="py-20 bg-gray-50 relative overflow-hidden">
+    <section id="about" className="py-20 bg-white relative overflow-hidden">
       {/* Decorative bg */}
       <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-primary/5 blur-2xl pointer-events-none"></div>
       <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full bg-[#F5C518]/10 blur-3xl pointer-events-none"></div>

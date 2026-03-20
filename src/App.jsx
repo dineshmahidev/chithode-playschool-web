@@ -18,6 +18,7 @@ import Login from './components/Admin/Login';
 import NotFound from './components/NotFound';
 import SummerCamp from './components/SummerCamp';
 import HomePopup from './components/HomePopup';
+import MusicPlayer from './components/MusicPlayer';
 
 function LandingPage() {
   const { content } = useContent();
@@ -81,40 +82,35 @@ function ProtectedRoute({ children }) {
 
 export default function App() {
   return (
-    <div className="h-screen w-screen p-2.5 sm:p-3 flex flex-col summer-pattern-bg overflow-hidden">
+    <div className="min-h-screen font-nunito flex flex-col relative w-full overflow-x-hidden">
       <HomePopup />
-      {/* The main container for the entire site content */}
-      <div className="bg-white rounded-xl shadow-2xl relative flex-1 flex flex-col mx-auto w-full max-w-[1600px] border border-white/20 overflow-hidden">
-        
-        {/* Scrollable area */}
-        <div className="flex-1 overflow-y-auto scroll-smooth">
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/summer-camp" element={<SummerCamp />} />
-            <Route path="/admin/login" element={<Login />} />
-            <Route 
-              path="/admin" 
-              element={
-                <ProtectedRoute>
-                  <AdminPanel />
-                </ProtectedRoute>
-              } 
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
+      <MusicPlayer />
+      
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/summer-camp" element={<SummerCamp />} />
+        <Route path="/admin/login" element={<Login />} />
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute>
+              <AdminPanel />
+            </ProtectedRoute>
+          } 
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
 
-        {/* Global Floating Call Button - Absolute inside the container, floats over scrollable area */}
-        <a
-          href="tel:+919787751430"
-          className="absolute bottom-8 right-8 z-[9999] w-14 h-14 bg-[#F5C518] rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group overflow-visible"
-          aria-label="Call Chithode Happykids"
-        >
-          <span className="text-2xl animate-ringing">📞</span>
-          <div className="absolute inset-0 rounded-full animate-spread-glow pointer-events-none" />
-          <div className="absolute inset-0 rounded-full animate-spread-glow delay-1000 pointer-events-none" />
-        </a>
-      </div>
+      {/* Global Floating Call Button */}
+      <a
+        href="tel:+919787751430"
+        className="fixed bottom-8 right-8 z-[9999] w-14 h-14 bg-[#F5C518] rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group overflow-visible"
+        aria-label="Call Chithode Happykids"
+      >
+        <span className="text-2xl animate-ringing">📞</span>
+        <div className="absolute inset-0 rounded-full animate-spread-glow pointer-events-none" />
+        <div className="absolute inset-0 rounded-full animate-spread-glow delay-1000 pointer-events-none" />
+      </a>
     </div>
   );
 }

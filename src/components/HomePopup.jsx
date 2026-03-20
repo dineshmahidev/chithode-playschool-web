@@ -9,10 +9,7 @@ export default function HomePopup() {
 
   useEffect(() => {
     if (popupData?.enabled) {
-      const hasSeen = sessionStorage.getItem('hasSeenPopup');
-      if (!hasSeen) {
-        setIsOpen(true);
-      }
+      setIsOpen(true);
     } else {
       setIsOpen(false);
     }
@@ -30,7 +27,6 @@ export default function HomePopup() {
 
   const closePopup = () => {
     setIsOpen(false);
-    sessionStorage.setItem('hasSeenPopup', 'true');
   };
 
   if (!isOpen || !popupData) return null;

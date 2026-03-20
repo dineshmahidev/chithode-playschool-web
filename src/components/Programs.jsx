@@ -61,7 +61,7 @@ export default function Programs() {
       <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-primary/5 blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#F5C518]/10 blur-3xl pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
           <p className="text-primary font-semibold tracking-[0.2em] text-xs uppercase mb-3">
