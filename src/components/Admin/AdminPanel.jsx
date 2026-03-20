@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { 
   Home, Info, BookOpen, ImageIcon, Grid, MessageSquare, Users, Mail, Layout,
   ChevronRight, Save, Plus, Trash2, LogOut, Star, Upload, Trash, Download, Settings,
-  Menu, X
+  Menu, X, Sun, Bell
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -12,14 +12,16 @@ const SECTIONS = [
   { id: 'hero', name: 'Hero Section', icon: <Home className="w-5 h-5" /> },
   { id: 'about', name: 'About Us', icon: <Info className="w-5 h-5" /> },
   { id: 'programs', name: 'Programs', icon: <BookOpen className="w-5 h-5" /> },
-  { id: 'how-it-works', name: 'How It Works', icon: <Layout className="w-5 h-5" /> },
+  { id: 'howItWorks', name: 'How It Works', icon: <Layout className="w-5 h-5" /> },
   { id: 'features', name: 'Features', icon: <Grid className="w-5 h-5" /> },
   { id: 'gallery', name: 'Gallery', icon: <ImageIcon className="w-5 h-5" /> },
   { id: 'testimonials', name: 'Testimonials', icon: <MessageSquare className="w-5 h-5" /> },
   { id: 'admission', name: 'Admission', icon: <Users className="w-5 h-5" /> },
   { id: 'enquiry', name: 'Enquiry', icon: <Mail className="w-5 h-5" /> },
-  { id: 'footer', name: 'Footer', icon: <Layout className="w-5 h-5" /> },
   { id: 'settings', name: 'Site Settings', icon: <Settings className="w-5 h-5" /> },
+  { id: 'homePopup', name: 'Home Pop-up', icon: <Bell className="w-5 h-5 text-indigo-500" /> },
+  { id: 'summerCamp', name: 'Summer Camp', icon: <Sun className="w-5 h-5 text-orange-500" /> },
+  { id: 'footer', name: 'Footer', icon: <Layout className="w-5 h-5" /> },
 ];
 
 export default function AdminPanel() {
@@ -41,9 +43,13 @@ export default function AdminPanel() {
 
   const [content, setContent] = useState({
     settings: {
-      siteName: 'Chithode Play School',
-      favicon: '/favicon.ico',
-      logo: '/logo.png',
+      siteName: 'Chithode Happykids',
+      logo: '/fav/apple-touch-icon.png',
+      seo: {
+        metaTitle: 'Best Playschool & Pre-KG in Chithode – Chithode Happykids🐻',
+        metaDesc: 'Looking for the best playschool or daycare in Chithode? Chithode Happykids offers premium Pre-KG with live monitoring and daily activity reports. Enroll now!',
+        keywords: 'best playschool chithode, pre-kg erode, daycare kumilamparappu, kids school erode'
+      }
     },
     hero: [
       { id: 1, eyebrow: 'LET THE LEARNING BEGIN', title: 'LET THE\nLEARNING\nBEGIN', desc: 'Explore various programs and complete fun activities to unlock achievements. Learn with friends and grow together in a nurturing environment.', image: '/hero_slide1.png', ctaText: 'Enroll Now', ctaLink: '#admission' },
@@ -146,6 +152,39 @@ export default function AdminPanel() {
         { icon: '🕐', text: 'Mon–Sat: 8 AM – 5 PM' },
       ]
     },
+    summerCamp: {
+      hero: {
+        title: 'SUMMER CAMP 2026',
+        eyebrow: 'Hurry Up! Registration Open',
+        desc: 'Make your child\'s summer unforgettable with our action-packed camp! From creativity to exploration, we have something for every little adventurer.',
+        date: 'April 15, 2026',
+        age: '3 - 10 Years'
+      },
+      seo: {
+        metaTitle: 'Summer Camp 2026 – Fun & Learning at Chithode Happykids',
+        metaDesc: 'Enroll your child in our exciting 2026 Summer Camp in Chithode! Fun arts, crafts, science experiments, and outdoor games for kids aged 3-10 years.',
+        keywords: 'summer camp 2026, kids summer class chithode, playschool activities erode, child development summer camp'
+      },
+      activities: [
+        { image: '/summer_camp_arts.png', title: 'Arts & Crafts', desc: 'Unleash creativity with painting, clay modeling, and DIY projects.' },
+        { image: '/summer_camp_dance.png', title: 'Dance & Music', desc: 'Fun dance sessions and musical games to keep kids active and happy.' },
+        { image: '/summer_camp_yoga.png', title: 'Yoga & Wellness', desc: 'Mindfulness and easy yoga poses designed for young children.' },
+        { image: '/summer_camp_science.png', title: 'Science Experiments', desc: 'Cool, safe science magic that sparks curiosity and wonder.' },
+        { image: '/summer_camp_games.png', title: 'Outdoor Games', desc: 'Team-building sports and active fun under the summer sun.' },
+        { image: '/summer_camp_chef.png', title: 'Junior Chef Skills', desc: 'Fireless cooking and fun fruit-arrangements for little chefs.' },
+      ],
+      benefits: {
+        title: 'WHY JOIN OUR SUMMER CAMP?',
+        items: [
+          'Safe & Secured Environment',
+          'Expert Caring Mentors',
+          'Healthy Refreshments Provided',
+          'Creative Skill Development',
+          'Fun-Filled Social Interaction',
+          'Completion Certificates',
+        ]
+      }
+    },
     enquiry: {
       image: '/enquiry_img.png',
       contactInfo: [
@@ -167,7 +206,7 @@ export default function AdminPanel() {
           email: 'dinesh@example.com',
           subject: 'Admission Query',
           program: 'Playschool', 
-          date: '2024-03-08', 
+          date: '2026-03-08', 
           message: 'I want to know about the school timings and fee structure for playschool.',
           status: 'New',
           remarks: 'Called once, will visit tomorrow.'
@@ -179,8 +218,8 @@ export default function AdminPanel() {
           email: 'sathish@example.com',
           subject: 'Pre-KG Seat',
           program: 'Pre-KG', 
-          date: '2024-03-07', 
-          message: 'Is there any vacancy for Pre-KG 2024 batch?',
+          date: '2026-03-07', 
+          message: 'Is there any vacancy for Pre-KG 2026 batch?',
           status: 'In Progress',
           remarks: 'Needs discount information.'
         },
@@ -191,7 +230,7 @@ export default function AdminPanel() {
           email: 'anu@example.com',
           subject: 'Daycare Service',
           program: 'Daycare', 
-          date: '2024-03-05', 
+          date: '2026-03-05', 
           message: 'Looking for daycare service from 9am to 6pm.',
           status: 'Enrolled',
           remarks: 'Admitted on 10th March.'
@@ -206,6 +245,15 @@ export default function AdminPanel() {
         phone: '+91 97877 51430',
         email: 'chithodehappykids@gmail.com'
       }
+    },
+    homePopup: {
+      enabled: true,
+      image: '/summer_camp_promo_2026.png',
+      title: 'Summer Camp 2026',
+      desc: 'Registration is now open for our exciting 2026 Summer Camp! Limited seats available.',
+      ctaText: 'Learn More',
+      ctaLink: '/summer-camp',
+      ctaColor: 'yellow'
     }
   });
 
@@ -1050,7 +1098,7 @@ export default function AdminPanel() {
                   </div>
                 )}
 
-                {activeSection === 'how-it-works' && (
+                {activeSection === 'howItWorks' && (
                   <div className="space-y-12">
                     <div className="flex justify-between items-start border-b border-slate-100 pb-8">
                       <div className="space-y-1.5 text-left">
@@ -1147,7 +1195,7 @@ export default function AdminPanel() {
                           </div>
                       </div>
                     </div>
-                    <SectionSaveButton sectionId="how-it-works" />
+                    <SectionSaveButton sectionId="howItWorks" />
                   </div>
                 )}
 
@@ -1624,9 +1672,10 @@ export default function AdminPanel() {
                         </div>
                       </div>
                     </div>
+                    <SectionSaveButton sectionId="admission" />
                   </div>
                 )}
-
+                
                 {activeSection === 'enquiry' && (
                   <div className="space-y-12">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-slate-100 pb-8 gap-6">
@@ -1647,11 +1696,11 @@ export default function AdminPanel() {
                     <div className="grid grid-cols-1 xl:grid-cols-3 gap-12">
                       <div className="xl:col-span-2 space-y-8">
                         <div className="flex items-baseline justify-between">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">Inbound Channels ({content.enquiry.submissions.length})</label>
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">Inbound Channels ({content.enquiry?.submissions?.length || 0})</label>
                           <span className="text-[10px] font-bold text-primary px-3 py-1 bg-pink-50 rounded-full tracking-widest uppercase">Filter: All Time</span>
                         </div>
                         <div className="space-y-4 max-h-[800px] overflow-y-auto pr-2 scrollbar-hide">
-                          {content.enquiry.submissions.map((sub, i) => (
+                          {content.enquiry?.submissions?.map((sub, i) => (
                             <div key={sub.id} className="p-8 bg-white border border-slate-100 rounded-[32px] hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 space-y-8 group">
                               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                                 <div className="flex items-center gap-5">
@@ -1669,7 +1718,7 @@ export default function AdminPanel() {
                                 </div>
                                 <div className="flex items-center gap-3 w-full sm:w-auto overflow-x-auto sm:overflow-visible pb-2 sm:pb-0">
                                   <select
-                                    className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] outline-none border border-transparent cursor-pointer transition-all ${
+                                    className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] outline-none border border-transparent transition-all ${
                                       sub.status === 'New' ? 'bg-blue-50 text-blue-600 border-blue-100 hover:bg-blue-100' :
                                       sub.status === 'In Progress' ? 'bg-yellow-50 text-yellow-700 border-yellow-100 hover:bg-yellow-100' :
                                       'bg-green-50 text-green-600 border-green-100 hover:bg-green-100'
@@ -1826,11 +1875,402 @@ export default function AdminPanel() {
                         </div>
                       </div>
                     </div>
+                    <SectionSaveButton sectionId="enquiry" />
+                  </div>
+                )}
+
+                {activeSection === 'homePopup' && (
+                  <div className="space-y-12">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-slate-100 pb-8 gap-6">
+                      <div className="space-y-1.5 text-left">
+                        <h3 className="font-fredoka text-3xl text-slate-800 tracking-tight">Home Screen Pop-up</h3>
+                        <p className="text-slate-400 text-[13px] font-medium leading-relaxed">Manage the promotional notification shown to visitors on arrival</p>
+                      </div>
+                      <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-100">
+                        <span className={`text-[10px] font-black uppercase tracking-widest px-3 ${content.homePopup.enabled ? 'text-green-500' : 'text-slate-400'}`}>
+                          {content.homePopup.enabled ? 'Active' : 'Disabled'}
+                        </span>
+                        <button 
+                          onClick={() => updateNested('homePopup', 'enabled', !content.homePopup.enabled)}
+                          className={`w-12 h-6 rounded-full transition-all relative ${content.homePopup.enabled ? 'bg-indigo-500' : 'bg-slate-200'}`}
+                        >
+                          <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${content.homePopup.enabled ? 'left-7' : 'left-1'}`} />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                      <div className="space-y-8">
+                        <div className="space-y-6">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block pl-1">Popup Content</label>
+                          <div className="space-y-4">
+                            <div className="space-y-1.5">
+                              <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Headline</label>
+                              <input 
+                                className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-sm font-bold text-slate-700 outline-none focus:border-indigo-500/20 transition-all shadow-sm"
+                                value={content.homePopup.title}
+                                onChange={(e) => updateNested('homePopup', 'title', e.target.value)}
+                              />
+                            </div>
+                            <div className="space-y-1.5">
+                              <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Description Message</label>
+                              <textarea 
+                                className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-sm font-bold text-slate-700 outline-none focus:border-indigo-500/20 transition-all shadow-sm h-24"
+                                value={content.homePopup.desc}
+                                onChange={(e) => updateNested('homePopup', 'desc', e.target.value)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-6">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block pl-1">Call to Action (Button)</label>
+                          <div className="space-y-6">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="space-y-1.5">
+                                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Button Text</label>
+                                <input 
+                                  className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-[12px] font-bold text-slate-700 outline-none"
+                                  value={content.homePopup.ctaText}
+                                  onChange={(e) => updateNested('homePopup', 'ctaText', e.target.value)}
+                                />
+                              </div>
+                              <div className="space-y-1.5 flex-1">
+                                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Destination URL / Page Tag</label>
+                                <div className="space-y-3">
+                                  <input 
+                                    className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-[12px] font-bold text-slate-700 outline-none focus:border-indigo-500/20 shadow-sm"
+                                    value={content.homePopup.ctaLink}
+                                    onChange={(e) => updateNested('homePopup', 'ctaLink', e.target.value)}
+                                    placeholder="/path or #tag"
+                                  />
+                                  <div className="flex flex-wrap gap-2">
+                                    {[
+                                      { label: 'Home', val: '/' },
+                                      { label: 'Summer Camp', val: '/summer-camp' },
+                                      { label: 'Programs', val: '/#programs' },
+                                      { label: 'Admission', val: '/#admission' },
+                                      { label: 'Enquiry', val: '/#enquiry' },
+                                    ].map(tag => (
+                                      <button 
+                                        key={tag.val}
+                                        onClick={() => updateNested('homePopup', 'ctaLink', tag.val)}
+                                        className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${content.homePopup.ctaLink === tag.val ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-100 text-slate-400 hover:bg-slate-200'}`}
+                                      >
+                                        {tag.label}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="space-y-3">
+                              <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Theme Palette</label>
+                              <div className="flex gap-4">
+                                {[
+                                  { n: 'indigo', c: 'bg-indigo-600' },
+                                  { n: 'yellow', c: 'bg-yellow-400' },
+                                  { n: 'pink', c: 'bg-[#E31C78]' },
+                                  { n: 'orange', c: 'bg-orange-500' }
+                                ].map(color => (
+                                  <button
+                                    key={color.n}
+                                    onClick={() => updateNested('homePopup', 'ctaColor', color.n)}
+                                    className={`w-10 h-10 rounded-xl transition-all border-2 ${content.homePopup.ctaColor === color.n ? 'border-indigo-600 scale-110 shadow-lg' : 'border-transparent hover:scale-105'} ${color.c}`}
+                                    aria-label={`Select ${color.n} color`}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-6">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block pl-1">Visual Media</label>
+                        <div className="bg-white border border-slate-100 rounded-[40px] p-8 shadow-sm space-y-6">
+                          <div className="aspect-[4/3] bg-slate-50 rounded-3xl overflow-hidden border border-slate-100 relative group">
+                            <img src={content.homePopup.image} alt="Popup Preview" className="w-full h-full object-cover" />
+                            <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer text-white font-black text-xs uppercase tracking-widest">
+                              Change Image
+                              <input 
+                                type="file" className="hidden" accept="image/*"
+                                onChange={(e) => handleFileUpload('homePopup', 'image', e.target.files[0])}
+                              />
+                            </label>
+                          </div>
+                          <p className="text-[10px] text-slate-400 text-center font-medium">Recommended size: 800x600px or similar ratio</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <SectionSaveButton sectionId="homePopup" />
+                  </div>
+                )}
+
+                {activeSection === 'summerCamp' && (
+                  <div className="space-y-12">
+                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-slate-100 pb-8 gap-6">
+                      <div className="space-y-1.5 text-left">
+                        <h3 className="font-fredoka text-3xl text-slate-800 tracking-tight">Summer Camp 2026</h3>
+                        <p className="text-slate-400 text-[13px] font-medium leading-relaxed">Customize your seasonal programs, activities, and benefits</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-2 pl-1">
+                        <Star className="w-5 h-5 text-indigo-500" />
+                        <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest">SEO Meta Data (Organic Leads)</label>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-indigo-50/30 p-8 rounded-[40px] border border-indigo-100/50 shadow-sm">
+                        <div className="space-y-1.5">
+                           <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Meta Title</label>
+                           <input 
+                             className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-[13px] font-bold text-slate-700 outline-none focus:border-indigo-500/20 shadow-sm"
+                             value={content.summerCamp.seo?.metaTitle || ''}
+                             onChange={(e) => updateNested('summerCamp', 'seo.metaTitle', e.target.value)}
+                           />
+                        </div>
+                        <div className="space-y-1.5">
+                           <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Meta Description</label>
+                           <textarea 
+                             className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-[13px] font-bold text-slate-700 outline-none focus:border-indigo-500/20 shadow-sm h-14"
+                             value={content.summerCamp.seo?.metaDesc || ''}
+                             onChange={(e) => updateNested('summerCamp', 'seo.metaDesc', e.target.value)}
+                           />
+                        </div>
+                        <div className="space-y-1.5">
+                           <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Keywords (comma separated)</label>
+                           <input 
+                             className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-[13px] font-bold text-slate-700 outline-none focus:border-indigo-500/20 shadow-sm"
+                             value={content.summerCamp.seo?.keywords || ''}
+                             onChange={(e) => updateNested('summerCamp', 'seo.keywords', e.target.value)}
+                           />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Hero Section */}
+                    <div className="space-y-6">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block pl-1">Camp Hero Details</label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/50 p-8 rounded-[40px] border border-slate-100">
+                        <div className="space-y-4">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest block pl-1">Main Heading</label>
+                          <input 
+                            className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-sm font-bold text-slate-700 outline-none focus:border-primary/20 transition-all shadow-sm"
+                            value={content.summerCamp.hero.title}
+                            onChange={(e) => {
+                               const newHero = { ...content.summerCamp.hero, title: e.target.value };
+                               updateNested('summerCamp', 'hero', newHero);
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-4">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest block pl-1">Eyebrow Text</label>
+                          <input 
+                            className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-sm font-bold text-slate-700 outline-none focus:border-primary/20 transition-all shadow-sm"
+                            value={content.summerCamp.hero.eyebrow}
+                            onChange={(e) => {
+                               const newHero = { ...content.summerCamp.hero, eyebrow: e.target.value };
+                               updateNested('summerCamp', 'hero', newHero);
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-4 md:col-span-2">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest block pl-1">Hero Description</label>
+                          <textarea 
+                            className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-sm font-bold text-slate-700 outline-none focus:border-primary/20 transition-all shadow-sm h-24"
+                            value={content.summerCamp.hero.desc}
+                            onChange={(e) => {
+                               const newHero = { ...content.summerCamp.hero, desc: e.target.value };
+                               updateNested('summerCamp', 'hero', newHero);
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-4">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest block pl-1">Camp Date</label>
+                          <input 
+                            className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-sm font-bold text-slate-700 outline-none focus:border-primary/20 transition-all shadow-sm"
+                            value={content.summerCamp.hero.date}
+                            onChange={(e) => {
+                               const newHero = { ...content.summerCamp.hero, date: e.target.value };
+                               updateNested('summerCamp', 'hero', newHero);
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-4">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest block pl-1">Age Group</label>
+                          <input 
+                            className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-sm font-bold text-slate-700 outline-none focus:border-primary/20 transition-all shadow-sm"
+                            value={content.summerCamp.hero.age}
+                            onChange={(e) => {
+                               const newHero = { ...content.summerCamp.hero, age: e.target.value };
+                               updateNested('summerCamp', 'hero', newHero);
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Activities List */}
+                    <div className="space-y-8">
+                       <div className="flex justify-between items-baseline">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block pl-1">Camp Activities ({content.summerCamp.activities.length})</label>
+                        <button 
+                          onClick={() => {
+                            const newAct = [...content.summerCamp.activities, { image: '/summer_camp_arts.png', title: 'New Activity', desc: 'Description' }];
+                            updateNested('summerCamp', 'activities', newAct);
+                          }}
+                          className="text-primary font-black text-[10px] uppercase tracking-widest hover:underline"
+                        >
+                          + Add Activity
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {content.summerCamp.activities.map((act, i) => (
+                          <div key={i} className="p-6 bg-white border border-slate-100 rounded-[32px] hover:border-primary/20 transition-all space-y-6 group">
+                            <div className="flex gap-6">
+                              <div className="w-24 h-24 bg-slate-50 rounded-2xl overflow-hidden shadow-sm relative shrink-0">
+                                <img src={act.image} alt="Activity" className="w-full h-full object-cover" />
+                                <label className="absolute inset-0 bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer text-[9px] font-black uppercase">
+                                  Replace
+                                  <input 
+                                    type="file" className="hidden" accept="image/*"
+                                    onChange={(e) => handleFileUpload('summerCamp', 'image', e.target.files[0], i)}
+                                  />
+                                </label>
+                              </div>
+                              <div className="flex-1 space-y-3">
+                                <div className="flex justify-between items-center">
+                                  <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Activity Name</label>
+                                  <button 
+                                    onClick={() => {
+                                      const newAct = content.summerCamp.activities.filter((_, idx) => idx !== i);
+                                      updateNested('summerCamp', 'activities', newAct);
+                                    }}
+                                    className="p-1 text-slate-200 hover:text-red-500 transition-colors"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                                <input 
+                                  className="w-full bg-transparent font-fredoka text-base text-slate-800 outline-none focus:text-primary transition-all font-bold"
+                                  value={act.title}
+                                  onChange={(e) => {
+                                    const newAct = [...content.summerCamp.activities];
+                                    newAct[i].title = e.target.value;
+                                    updateNested('summerCamp', 'activities', newAct);
+                                  }}
+                                />
+                              </div>
+                            </div>
+                            <textarea 
+                              className="w-full bg-slate-50 border-none rounded-2xl p-4 text-[12px] text-slate-500 font-medium leading-relaxed outline-none h-20"
+                              value={act.desc}
+                              onChange={(e) => {
+                                const newAct = [...content.summerCamp.activities];
+                                newAct[i].desc = e.target.value;
+                                updateNested('summerCamp', 'activities', newAct);
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Why Join Section */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-10 border-t border-slate-100">
+                      <div className="space-y-6">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block pl-1">Benefits List</label>
+                        <div className="space-y-4">
+                          <input 
+                            className="w-full bg-slate-50 border border-slate-100 rounded-2xl p-5 font-fredoka text-lg text-slate-800 outline-none focus:bg-white transition-all shadow-sm"
+                            placeholder="Why Join Title..."
+                            value={content.summerCamp.benefits.title}
+                            onChange={(e) => {
+                              const newB = { ...content.summerCamp.benefits, title: e.target.value };
+                              updateNested('summerCamp', 'benefits', newB);
+                            }}
+                          />
+                          <div className="bg-white border border-slate-100 p-6 rounded-[32px] space-y-3 shadow-sm">
+                            {content.summerCamp.benefits.items.map((item, i) => (
+                              <div key={i} className="flex gap-2 group/item">
+                                <input 
+                                  className="flex-1 bg-slate-50 border border-slate-50 rounded-xl px-4 py-3 text-[13px] font-bold text-slate-600 outline-none focus:bg-white focus:border-primary/20 transition-all"
+                                  value={item}
+                                  onChange={(e) => {
+                                    const newItems = [...content.summerCamp.benefits.items];
+                                    newItems[i] = e.target.value;
+                                    const newB = { ...content.summerCamp.benefits, items: newItems };
+                                    updateNested('summerCamp', 'benefits', newB);
+                                  }}
+                                />
+                                <button 
+                                  onClick={() => {
+                                    const newItems = content.summerCamp.benefits.items.filter((_, idx) => idx !== i);
+                                    const newB = { ...content.summerCamp.benefits, items: newItems };
+                                    updateNested('summerCamp', 'benefits', newB);
+                                  }}
+                                  className="p-2 text-slate-200 hover:text-red-500 transition-colors opacity-0 group-hover/item:opacity-100"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            ))}
+                            <button 
+                              onClick={() => {
+                                const newItems = [...content.summerCamp.benefits.items, 'New Benefit'];
+                                const newB = { ...content.summerCamp.benefits, items: newItems };
+                                updateNested('summerCamp', 'benefits', newB);
+                              }}
+                              className="w-full py-3 border border-dashed border-slate-200 rounded-xl text-[9px] text-slate-400 font-black uppercase tracking-widest hover:border-primary/30 hover:text-primary transition-all flex items-center justify-center gap-2"
+                            >
+                              <Plus className="w-3 h-3" /> Add Benefit
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <SectionSaveButton sectionId="summerCamp" />
                   </div>
                 )}
                 
                 {activeSection === 'settings' && (
                   <div className="space-y-12">
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-2 pl-1 mb-6">
+                        <Star className="w-5 h-5 text-indigo-500" />
+                        <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-widest pl-1">Global SEO Meta (Main Site)</h4>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-slate-50 p-8 rounded-[40px] border border-slate-100 mb-12">
+                         <div className="space-y-1.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Default Meta Title</label>
+                            <input 
+                              className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-[13px] font-bold text-slate-700 outline-none focus:border-indigo-500/20 shadow-sm"
+                              value={content.settings.seo?.metaTitle || ''}
+                              onChange={(e) => updateNested('settings', 'seo.metaTitle', e.target.value)}
+                            />
+                         </div>
+                         <div className="space-y-1.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Default Meta Description</label>
+                            <textarea 
+                              className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-[13px] font-bold text-slate-700 outline-none focus:border-indigo-500/20 shadow-sm h-14"
+                              value={content.settings.seo?.metaDesc || ''}
+                              onChange={(e) => updateNested('settings', 'seo.metaDesc', e.target.value)}
+                            />
+                         </div>
+                         <div className="space-y-1.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Global Keywords</label>
+                            <input 
+                              className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-[13px] font-bold text-slate-700 outline-none focus:border-indigo-500/20 shadow-sm"
+                              value={content.settings.seo?.keywords || ''}
+                              onChange={(e) => updateNested('settings', 'seo.keywords', e.target.value)}
+                            />
+                         </div>
+                      </div>
+                    </div>
+
                     <div className="flex justify-between items-start border-b border-slate-100 pb-8">
                       <div className="space-y-1.5 text-left">
                         <h3 className="font-fredoka text-3xl text-slate-800 tracking-tight">Site Settings</h3>

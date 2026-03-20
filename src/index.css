@@ -14,8 +14,29 @@
 
   body {
     font-family: "Nunito", sans-serif;
-    overflow-x: hidden;
     background-color: #fff;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .summer-pattern-bg {
+    background-color: #F5C518; /* Brand Yellow */
+    position: relative;
+    z-index: 1; /* To ensure and keep other elements above the pseudo-element if needed */
+  }
+
+  .summer-pattern-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url('/summer_pattern_clear.png');
+    background-size: 450px;
+    background-repeat: repeat;
+    opacity: 0.15; /* Increased zoom and visibility */
+    mix-blend-mode: multiply;
+    z-index: -1; /* Always stays behind the contents of the div */
   }
 
   html {
@@ -59,16 +80,13 @@
   border-radius: 5px !important;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+/* Hide Scrollbar Globally */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: #e31c78;
-  border-radius: 3px;
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 /* Global Animations */

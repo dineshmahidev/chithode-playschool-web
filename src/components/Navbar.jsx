@@ -3,11 +3,11 @@ import { Menu, X } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 
 const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Programs', href: '#programs' },
-  { label: 'Admission', href: '#admission' },
-  { label: 'Enquiry', href: '#enquiry' },
-  { label: 'Call Now', href: 'tel:+919787751430' },
+  { label: 'Home', href: '/' },
+  { label: 'Programs', href: '/#programs' },
+  { label: 'Summer Camp', href: '/summer-camp', isNew: true },
+  { label: 'Admission', href: '/#admission' },
+  { label: 'Enquiry', href: '/#enquiry' },
 ];
 
 export default function Navbar() {
@@ -40,12 +40,12 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+      className={`sticky top-0 z-[100] transition-all duration-300 w-full ${
         menuOpen
           ? 'h-screen'
           : scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-md py-2'
-          : 'bg-transparent py-4'
+          ? 'bg-[#E31C78]/95 backdrop-blur-md shadow-xl py-2'
+          : 'bg-[#E31C78] py-4'
       }`}
       style={menuOpen ? { background: 'linear-gradient(135deg, #E31C78 0%, #c4156a 100%)' } : {}}
     >
@@ -57,7 +57,7 @@ export default function Navbar() {
             alt={`${siteName} Logo`}
             className="h-8 sm:h-10 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-md"
           />
-          <span className={`font-fredoka text-xl sm:text-2xl tracking-wide transition-colors ${menuOpen ? 'text-white' : scrolled ? 'text-primary' : 'text-white'}`}>
+          <span className={`font-fredoka text-xl sm:text-2xl tracking-wide transition-colors ${menuOpen || scrolled || true ? 'text-white' : 'text-white'}`}>
             {siteName}
           </span>
         </a>
@@ -69,13 +69,18 @@ export default function Navbar() {
               <a
                 href={link.href}
                 onClick={() => handleNav(link.href)}
-                className={`font-semibold text-sm transition-all duration-200 relative after:block after:absolute after:h-0.5 after:bg-[#F5C518] after:bottom-0 after:left-0 after:transition-all after:duration-300 hover:text-[#F5C518] ${
+                className={`font-semibold text-sm transition-all duration-200 relative after:block after:absolute after:h-0.5 after:bg-[#F5C518] after:bottom-0 after:left-0 after:transition-all after:duration-300 hover:text-[#F5C518] flex items-center gap-1 ${
                   active === link.href
                     ? 'text-[#F5C518] after:w-full'
-                    : `after:w-0 hover:after:w-full ${scrolled ? 'text-gray-700' : 'text-white'}`
+                    : `after:w-0 hover:after:w-full text-white/90 hover:text-white`
                 }`}
               >
                 {link.label}
+                {link.isNew && (
+                  <span className="bg-[#F5C518] text-gray-900 text-[10px] font-black px-1.5 py-0.5 rounded-md leading-none animate-pulse">
+                    NEW
+                  </span>
+                )}
               </a>
             </li>
           ))}
@@ -85,7 +90,7 @@ export default function Navbar() {
 
         {/* Hamburger */}
         <button
-          className={`lg:hidden p-2.5 -mr-2 rounded-2xl transition-all duration-300 relative z-[110] flex items-center justify-center ${menuOpen ? 'text-white bg-white/10' : scrolled ? 'text-primary' : 'text-white'} active:scale-90`}
+          className={`lg:hidden p-2.5 -mr-2 rounded-2xl transition-all duration-300 relative z-[110] flex items-center justify-center ${menuOpen ? 'text-white bg-white/10' : 'text-white'} active:scale-90`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle Menu"
         >

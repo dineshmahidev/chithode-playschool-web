@@ -82,7 +82,7 @@ export default function Hero() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-16 w-full">
+      <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 sm:px-6 pt-4 sm:pt-24 pb-16 w-full">
         <div className="flex flex-col lg:flex-row items-center w-full gap-10">
 
           {/* Text block */}
