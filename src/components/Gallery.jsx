@@ -30,7 +30,17 @@ export default function Gallery() {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <section id="gallery" className="py-24 bg-gray-50 relative overflow-hidden">
+    <section id="gallery" className="py-24 bg-white relative overflow-hidden">
+      {/* Background Pattern Overlay */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.07]" 
+        style={{ 
+          backgroundImage: 'url(/summer_pattern_clear.png)', 
+          backgroundSize: '450px', 
+          backgroundRepeat: 'repeat' 
+        }} 
+      />
+      
       <div className="absolute top-0 left-0 w-72 h-72 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-[#F5C518]/10 blur-3xl pointer-events-none" />
 
@@ -44,12 +54,12 @@ export default function Gallery() {
           </p>
         </div>
 
-        {/* Adaptable Dynamic Grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 3xl:columns-6 gap-4 space-y-4">
+        {/* Auto-Filling Mosaic Flex Layout */}
+        <div className="flex flex-wrap gap-4">
           {galleryItems.map((item) => (
             <div
               key={item.id}
-              className="relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-card-lg hover:scale-[1.02] group break-inside-avoid shadow-sm border border-white"
+              className="flex-grow basis-[300px] h-[250px] sm:h-[350px] relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-card-lg hover:scale-[1.02] group shadow-sm border border-white"
               onMouseEnter={() => setHovered(item.id)}
               onMouseLeave={() => setHovered(null)}
             >

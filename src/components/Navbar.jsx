@@ -14,13 +14,25 @@ export default function Navbar() {
   const { content } = useContent();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [active, setActive] = useState('#home');
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      
+      // Determine if scrolling up or down
+      const isVisible = prevScrollPos > currentScrollPos || currentScrollPos < 10;
+      
+      setVisible(isVisible);
+      setScrolled(currentScrollPos > 20);
+      setPrevScrollPos(currentScrollPos);
+    };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [prevScrollPos]);
 
   // Update mobile status bar theme color dynamically
   useEffect(() => {
@@ -31,35 +43,46 @@ export default function Navbar() {
   }, [menuOpen]);
 
   const handleNav = (href) => {
-    setActive(href);
     setMenuOpen(false);
+    setActive(href);
+    
+    // Explicitly scroll for anchor links if on the same page
+    if (href.startsWith('/#')) {
+      const element = document.querySelector(href.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
-  const logo = content?.settings?.logo || '/fav/apple-touch-icon.png';
+  const logo = '/chk-logo.jpg';
   const siteName = content?.settings?.siteName || 'Chithode Happykids';
 
   return (
     <nav
-      className={`sticky top-0 z-[100] transition-all duration-300 w-full ${
+      className={`sticky top-0 z-[100] transition-all duration-500 w-full ${
+        visible || menuOpen ? 'translate-y-0' : '-translate-y-full'
+      } ${
         menuOpen
           ? 'h-screen'
           : scrolled
-          ? 'bg-[#E31C78]/95 backdrop-blur-md shadow-xl py-2'
-          : 'bg-[#E31C78] py-4'
+          ? 'bg-white/95 backdrop-blur-md shadow-lg py-1.5'
+          : 'bg-white py-2'
       }`}
       style={menuOpen ? { background: 'linear-gradient(135deg, #E31C78 0%, #c4156a 100%)' } : {}}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         {/* Logo */}
-        <a href="#home" className="flex items-center gap-2 group" onClick={() => handleNav('#home')}>
+        <a 
+          href="#home" 
+          className={`flex items-center gap-2 group transition-all duration-300 ${menuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} 
+          onClick={() => handleNav('#home')}
+        >
           <img
             src={logo}
             alt={`${siteName} Logo`}
-            className="h-8 sm:h-10 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-md"
+            className="h-10 sm:h-14 w-auto object-contain group-hover:scale-110 transition-transform"
           />
-          <span className={`font-fredoka text-xl sm:text-2xl tracking-wide transition-colors ${menuOpen || scrolled || true ? 'text-white' : 'text-white'}`}>
-            {siteName}
-          </span>
         </a>
 
         {/* Desktop Links */}
@@ -72,7 +95,7 @@ export default function Navbar() {
                 className={`font-semibold text-sm transition-all duration-200 relative after:block after:absolute after:h-0.5 after:bg-[#F5C518] after:bottom-0 after:left-0 after:transition-all after:duration-300 hover:text-[#F5C518] flex items-center gap-1 ${
                   active === link.href
                     ? 'text-[#F5C518] after:w-full'
-                    : `after:w-0 hover:after:w-full text-white/90 hover:text-white`
+                    : `after:w-0 hover:after:w-full ${menuOpen ? 'text-white/90 hover:text-white' : 'text-gray-700 hover:text-[#E31C78]'}`
                 }`}
               >
                 {link.label}
@@ -88,13 +111,35 @@ export default function Navbar() {
 
 
 
-        {/* Hamburger */}
+        {/* Hamburger Menu (Hides when open) */}
         <button
-          className={`lg:hidden p-2.5 -mr-2 rounded-2xl transition-all duration-300 relative z-[110] flex items-center justify-center ${menuOpen ? 'text-white bg-white/10' : 'text-white'} active:scale-90`}
+          className={`lg:hidden p-2.5 -mr-2 rounded-2xl transition-all duration-300 relative z-[110] flex items-center justify-center ${menuOpen ? 'opacity-0 scale-50 pointer-events-none' : 'text-[#E31C78]'} active:scale-90`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle Menu"
         >
-          {menuOpen ? <X size={28} strokeWidth={2.5} /> : <Menu size={28} strokeWidth={2.5} />}
+          <Menu size={28} strokeWidth={2.5} />
+        </button>
+
+        {/* Vertically Centered Left Side 'Slide' Close Button */}
+        <button
+          onClick={() => setMenuOpen(false)}
+          className={`fixed left-0 top-1/2 -translate-y-1/2 h-44 w-14 bg-white/20 backdrop-blur-xl rounded-r-[2.5rem] border-y-2 border-r-2 border-white/30 flex items-center justify-center group transition-all duration-500 z-[200] overflow-hidden ${
+            menuOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'
+          }`}
+          aria-label="Close Menu"
+        >
+          {/* Internal Double 'Slide' Bar Elements */}
+          <div className="flex flex-col items-center gap-5 translate-x-[-2px]">
+            <div className="flex flex-col gap-1.5 h-16 w-1 items-center">
+              <span className="w-1.5 h-1.5 bg-[#F5C518] rounded-full animate-ping" />
+              <div className="w-1 bg-white/40 h-full rounded-full relative">
+                <div className="absolute top-0 left-0 w-full h-1/2 bg-white rounded-full group-hover:h-full transition-all duration-500" />
+              </div>
+            </div>
+            <span className="[writing-mode:vertical-lr] text-white font-black text-[12px] uppercase tracking-[0.4em] rotate-180 drop-shadow-lg">
+              CLOSE
+            </span>
+          </div>
         </button>
       </div>
 
@@ -115,11 +160,16 @@ export default function Navbar() {
               href={link.href}
               onClick={() => handleNav(link.href)}
               style={{ transitionDelay: `${i * 100}ms` }}
-              className={`font-fredoka text-3xl transition-all duration-500 ${
+              className={`font-fredoka text-3xl transition-all duration-500 flex items-center gap-3 ${
                 menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
               } ${active === link.href ? 'text-[#F5C518]' : 'text-white hover:text-[#F5C518]'}`}
             >
               {link.label}
+              {link.isNew && (
+                <span className="bg-[#F5C518] text-gray-900 text-[10px] font-black px-1.5 py-0.5 rounded-md leading-none animate-bounce">
+                  NEW
+                </span>
+              )}
             </a>
           ))}
         </div>

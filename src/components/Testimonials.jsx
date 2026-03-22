@@ -70,6 +70,16 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" className="py-24 bg-white relative overflow-hidden">
+      {/* Background Pattern Overlay */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.05]" 
+        style={{ 
+          backgroundImage: 'url(/summer_pattern_clear.png)', 
+          backgroundSize: '450px', 
+          backgroundRepeat: 'repeat' 
+        }} 
+      />
+      
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 
       <style>{`

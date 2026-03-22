@@ -57,6 +57,16 @@ export default function Programs() {
 
   return (
     <section id="programs" className="py-24 bg-white relative overflow-hidden">
+      {/* Background Pattern Overlay */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.05]" 
+        style={{ 
+          backgroundImage: 'url(/summer_pattern_clear.png)', 
+          backgroundSize: '450px', 
+          backgroundRepeat: 'repeat' 
+        }} 
+      />
+      
       {/* Bg decoration */}
       <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-primary/5 blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#F5C518]/10 blur-3xl pointer-events-none"></div>

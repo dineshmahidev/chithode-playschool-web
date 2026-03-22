@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useContent } from '../context/ContentContext';
+import { 
+  Instagram, Youtube, Facebook, Send, MapPin, Phone, Mail, 
+  Heart, Star, Music, Palette, Rocket, GraduationCap 
+} from 'lucide-react';
 
 const staticFooterLinks = {
-  'Play & Learn': ['Programs', 'Activities', 'Schedule', 'Events'],
-  'Create & Share': ['Art Workshop', 'STEM Lab', 'Projects', 'Exhibitions'],
-  'Popular Shows': ['Story Time', 'Music Class', 'Science Fun', 'Dance Class'],
-  'School Events': ['Annual Day', 'Sports Day', 'Exhibitions', 'Parent Day'],
+  'Programs': ['Playschool', 'Pre-KG', 'Daycare', 'Summer Camp'],
+  'Activities': ['Art & Craft', 'Music & Dance', 'STEM Lab', 'Indoor Play'],
+  'Resources': ['Parent Portal', 'Photo Gallery', 'School Calendar', 'Fee Structure'],
+  'Company': ['About Us', 'Our Vision', 'Terms & Privacy', 'Contact Us'],
 };
 
 export default function Footer() {
@@ -14,8 +18,6 @@ export default function Footer() {
   const [subscribed, setSubscribed] = useState(false);
 
   const footer = content?.footer || {
-    schoolEvents: staticFooterLinks['School Events'],
-    quickLinks: staticFooterLinks['Play & Learn'],
     contact: {
       address: '37/2 No 1 Vinayaga Residency, Kumilamparappu Pirivu, Chithode, Erode',
       phone: '+91 97877 51430',
@@ -23,19 +25,11 @@ export default function Footer() {
     }
   };
 
-  const socials = content?.enquiry?.socials || [
-    { icon: 'f', bg: 'bg-blue-600', link: '#' },
-    { icon: 't', bg: 'bg-sky-500', link: '#' },
-    { icon: '▶', bg: 'bg-red-600', link: '#' },
-    { icon: '📷', bg: 'bg-pink-600', link: '#' },
+  const socials = [
+    { icon: <Facebook className="w-4 h-4" />, bg: 'bg-[#1877F2]', link: '#' },
+    { icon: <Youtube className="w-4 h-4" />, bg: 'bg-[#FF0000]', link: '#' },
+    { icon: <Instagram className="w-4 h-4" />, bg: 'bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]', link: '#' },
   ];
-
-  const footerLinks = {
-    'Play & Learn': footer.quickLinks || staticFooterLinks['Play & Learn'],
-    'Create & Share': staticFooterLinks['Create & Share'],
-    'Popular Shows': staticFooterLinks['Popular Shows'],
-    'School Events': footer.schoolEvents || staticFooterLinks['School Events'],
-  };
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -45,118 +39,140 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gray-900 text-white relative overflow-hidden">
-      {/* Top newsletter bar */}
-      <div className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-          {/* Mascot + tagline */}
-          <div className="flex items-center gap-5">
-            <img src="/mascot.png" alt="Mascot" className="w-20 animate-float drop-shadow-xl hidden sm:block" />
-            <div>
-              <h3 className="font-fredoka text-2xl text-white">Stay In The Game</h3>
-              <p className="text-white/50 text-xs mt-0.5">Subscribe to our newsletter for updates</p>
-            </div>
-          </div>
-          {/* Newsletter form */}
-          {subscribed ? (
-            <div className="flex items-center gap-2 bg-green-500/20 border border-green-500/30 rounded-full px-6 py-3">
-              <span className="text-green-400">✓</span>
-              <p className="text-green-400 font-semibold text-sm">Subscribed! Thank you.</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubscribe} className="flex items-center gap-0 w-full max-w-sm">
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="Subscribe For Newsletter"
-                className="flex-1 bg-white/10 border border-white/20 rounded-l-full px-5 py-3 text-sm text-white placeholder-white/40 outline-none focus:bg-white/15 transition-all"
-              />
-              <button
-                type="submit"
-                className="bg-[#F5C518] text-gray-900 font-extrabold px-5 py-3 rounded-r-full hover:bg-yellow-400 transition-colors"
-              >
-                →
-              </button>
-            </form>
-          )}
-        </div>
+    <footer className="bg-slate-900 text-white relative overflow-hidden pt-12">
+      {/* Background Pattern Overlay */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.03]" 
+        style={{ 
+          backgroundImage: 'url(/summer_pattern_clear.png)', 
+          backgroundSize: '400px', 
+          backgroundRepeat: 'repeat' 
+        }} 
+      />
+
+      {/* Decorative Floating Playschool Elements */}
+      <div className="absolute top-20 left-[5%] text-primary/10 animate-float pointer-events-none">
+        <Heart size={48} />
+      </div>
+      <div className="absolute top-40 right-[10%] text-[#F5C518]/10 animate-float-slow pointer-events-none" style={{ animationDelay: '2s' }}>
+        <Music size={56} />
+      </div>
+      <div className="absolute bottom-40 left-[15%] text-blue-400/10 animate-spin-slow pointer-events-none">
+        <Palette size={64} />
+      </div>
+      <div className="absolute bottom-20 right-[5%] text-green-400/10 animate-float pointer-events-none" style={{ animationDelay: '1s' }}>
+        <Rocket size={72} />
       </div>
 
-      {/* Middle links */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="flex flex-col lg:flex-row gap-10">
-          {/* Brand */}
-          <div className="lg:w-72 flex-shrink-0">
-            <div className="flex items-center gap-2 mb-4">
-              <img src="/fav/apple-touch-icon.png" alt="Chithode Happykids Logo" className="h-9 w-auto object-contain" />
-              <span className="font-fredoka text-xl text-white">Chithode Happykids</span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        
+        {/* Top Feature Bar */}
+        <div className="bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-8 sm:p-12 mb-16 flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl">
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary group hover:scale-110 transition-transform">
+                <GraduationCap size={32} className="group-hover:rotate-12 transition-transform" />
             </div>
-            <p className="text-white/50 text-xs leading-relaxed mb-4 max-w-xs">
-              Chithode Happykids is dedicated to nurturing young minds through innovative, play-based learning.
-              Every child deserves to shine. 🌟
+            <div>
+              <h3 className="font-fredoka text-2xl mb-1 text-white">Join Our Family</h3>
+              <p className="text-white/50 text-xs">Stay updated with our little learners' journey.</p>
+            </div>
+          </div>
+
+          <div className="w-full max-w-md">
+            {subscribed ? (
+              <div className="flex items-center gap-2 bg-green-500/20 border border-green-500/30 rounded-full px-6 py-4 text-green-400 font-bold text-sm h-[60px]">
+                <Send size={18} />
+                Subscribed successfully!
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="relative flex items-center h-[60px]">
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="Enter your email address..." 
+                  className="w-full h-full bg-white/5 border border-white/10 rounded-full px-8 pr-20 text-sm outline-none focus:bg-white/10 focus:border-white/20 transition-all font-medium"
+                />
+                <button type="submit" className="absolute right-2 w-12 h-12 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center transition-all shadow-lg active:scale-95">
+                  <Send size={20} />
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+
+        {/* Brand and Links Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 pb-16">
+          
+          {/* Brand Column */}
+          <div className="lg:col-span-2 pr-0 lg:pr-12">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-10 h-10 rounded-xl bg-white p-1.5 shadow-glow">
+                <img src="/fav/apple-touch-icon.png" alt="Logo" className="w-full h-full object-contain" />
+              </div>
+              <span className="font-fredoka text-2xl tracking-tight text-white">Chithode <span className="text-primary">Happykids</span></span>
+            </div>
+            <p className="text-white/60 text-sm leading-relaxed mb-8 max-w-md">
+              A vibrant world where every child is a star. We provide a nurturing environment filled with play, discovery, and the magic of early learning to build a bright future for your little one.
             </p>
-            {/* Contact details */}
-            <div className="space-y-2 mb-5">
-              <div className="flex items-start gap-2">
-                <span className="text-xs mt-0.5">📍</span>
-                <p className="text-white/50 text-xs leading-relaxed">{footer.contact.address}</p>
+            
+            {/* Contact Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+              <div className="flex items-start gap-3">
+                <MapPin className="text-primary mt-1 flex-shrink-0" size={16} />
+                <p className="text-white/50 text-[13px] leading-relaxed">{footer.contact.address}</p>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs">📞</span>
-                <a href={`tel:${footer.contact.phone.replace(/\s/g, '')}`} className="text-white/50 text-xs hover:text-[#F5C518] transition-colors">{footer.contact.phone}</a>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs">📧</span>
-                <a href={`mailto:${footer.contact.email}`} className="text-white/50 text-xs hover:text-[#F5C518] transition-colors">{footer.contact.email}</a>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <Phone className="text-primary" size={16} />
+                  <a href={`tel:${footer.contact.phone}`} className="text-white/50 text-[13px] hover:text-white transition-colors">{footer.contact.phone}</a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Mail className="text-primary" size={16} />
+                  <a href={`mailto:${footer.contact.email}`} className="text-white/50 text-[13px] hover:text-white transition-colors break-all">{footer.contact.email}</a>
+                </div>
               </div>
             </div>
-            <div className="flex gap-3">
+
+            <div className="flex gap-4">
               {socials.map((s, i) => (
-                <a
-                  key={i}
-                  href={s.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`w-9 h-9 ${s.bg || s.color} rounded-full flex items-center justify-center text-white font-bold text-xs hover:scale-110 transition-transform`}
-                >
+                <a key={i} href={s.link} target="_blank" rel="noopener noreferrer" className={`w-10 h-10 ${s.bg} rounded-xl flex items-center justify-center text-white shadow-xl hover:scale-110 hover:-translate-y-1 transition-all`}>
                   {s.icon}
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Links grid */}
-          <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-8">
-            {Object.entries(footerLinks).map(([title, links]) => (
-              <div key={title}>
-                <h4 className="font-extrabold text-sm text-white mb-4 uppercase tracking-wide">{title}</h4>
-                <ul className="space-y-2.5">
-                  {links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-white/50 text-xs hover:text-[#F5C518] transition-colors"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          {/* Link Columns */}
+          {Object.entries(staticFooterLinks).map(([title, links]) => (
+            <div key={title}>
+              <h4 className="font-fredoka text-lg text-white mb-8 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-[#F5C518] rounded-full" />
+                {title}
+              </h4>
+              <ul className="space-y-4">
+                {links.map(link => (
+                  <li key={link}>
+                    <a href="#" className="text-white/40 text-sm hover:text-primary hover:translate-x-1 transition-all flex items-center gap-2 group">
+                      <div className="h-0.5 w-0 bg-primary group-hover:w-2 transition-all" />
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-white/40 text-xs">2026 © Chithode Happykids. All Rights Reserved.</p>
-          <div className="flex gap-5">
-            <a href="#" className="text-white/40 text-xs hover:text-white/70 transition-colors">Privacy Policy</a>
-            <a href="#" className="text-white/40 text-xs hover:text-white/70 transition-colors">Terms of Service</a>
-            <a href="#" className="text-white/40 text-xs hover:text-white/70 transition-colors">Cookie Policy</a>
+        {/* Bottom Bar */}
+        <div className="border-t border-white/5 py-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+          <p className="text-white/30 text-xs">
+            © 2026 <span className="text-white/50 font-bold">Chithode Happykids.</span> Made with ❤️ for our little stars.
+          </p>
+          <div className="flex gap-8">
+            <a href="#" className="text-white/30 text-xs hover:text-white/50 transition-colors">Privacy</a>
+            <a href="#" className="text-white/30 text-xs hover:text-white/50 transition-colors">Terms</a>
+            <a href="#" className="text-white/30 text-xs hover:text-white/50 transition-colors">Cookies</a>
           </div>
         </div>
       </div>
